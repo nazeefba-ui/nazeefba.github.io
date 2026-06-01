@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nazeef</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #1a1a18;
+  --ink-mid: #4a4a46;
+  --ink-soft: #8a8a84;
+  --ink-faint: #c8c8c0;
+  --paper: #faf9f6;
+  --paper-warm: #f3f1ea;
+  --accent: #2d4a3e;
+  --accent-warm: #8b5e3c;
+  --accent-film: #4a3a6e;
+  --rule: rgba(26,26,24,0.12);
+  --serif: 'Lora', Georgia, serif;
+  --display: 'Libre Baskerville', Georgia, serif;
+  --mono: 'DM Mono', monospace;
+  --sidebar-w: 260px;
+  --content-max: 720px;
+  --topbar-h: 56px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.75;
+  min-height: 100vh;
+}
+
+/* ======== DESKTOP SIDEBAR ======== */
+.sidebar {
+  width: var(--sidebar-w);
+  min-height: 100vh;
+  position: fixed;
+  top: 0; left: 0;
+  background: var(--paper);
+  border-right: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  padding: 52px 36px 40px;
+  z-index: 200;
+}
+
+.site-name {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--ink);
+  text-decoration: none;
+  display: block;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+.site-tagline {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 48px;
+}
+
+.sidebar-divider {
+  width: 32px; height: 1px;
+  background: var(--ink-faint);
+  margin-bottom: 28px;
+}
+
+nav { flex: 1; }
+nav ul { list-style: none; }
+nav ul li + li { margin-top: 2px; }
+
+nav a {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+nav a::before {
+  content: '';
+  width: 18px; height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+  transition: width 0.2s, opacity 0.2s;
+  flex-shrink: 0;
+}
+
+nav a:hover, nav a.active { color: var(--ink); }
+nav a:hover::before, nav a.active::before { width: 28px; opacity: 1; }
+nav a.active { font-weight: 400; }
+
+.sidebar-footer { margin-top: auto; padding-top: 32px; }
+
+.ext-links { display: flex; flex-direction: column; gap: 10px; }
+
+.ext-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
+}
+
+.ext-links a:hover { color: var(--accent); }
+
+.ext-links svg {
+  width: 13px; height: 13px;
+  stroke: currentColor; fill: none; stroke-width: 1.5;
+  flex-shrink: 0;
+}
+
+/* ======== MOBILE TOPBAR ======== */
+.topbar {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--topbar-h);
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 300;
+}
+
+.topbar-name {
+  font-family: var(--display);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.burger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+}
+
+.burger span {
+  display: block;
+  width: 22px; height: 1.5px;
+  background: var(--ink);
+  transition: transform 0.25s, opacity 0.25s;
+}
+
+.burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ======== MOBILE DRAWER ======== */
+.drawer {
+  display: none;
+  position: fixed;
+  top: var(--topbar-h); left: 0; right: 0; bottom: 0;
+  background: var(--paper);
+  z-index: 250;
+  padding: 32px 24px 40px;
+  flex-direction: column;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.drawer.open { transform: translateX(0); }
+
+.drawer nav a {
+  font-size: 15px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.drawer nav a::before { width: 0; }
+.drawer nav a:hover::before, .drawer nav a.active::before { width: 20px; }
+
+.drawer-footer { margin-top: 32px; }
+
+.drawer .ext-links { flex-direction: row; flex-wrap: wrap; gap: 20px; }
+
+/* ======== MAIN CONTENT ======== */
+.main {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+}
+
+.section {
+  display: none;
+  max-width: var(--content-max);
+  padding: 72px 64px 96px;
+  animation: fadeUp 0.35s ease both;
+}
+
+.section.active { display: block; }
+
+#article-view {
+  display: none;
+  max-width: var(--content-max);
+  padding: 72px 64px 96px;
+  animation: fadeUp 0.35s ease both;
+}
+
+#article-view.active { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ======== PAGE HEADER ======== */
+.page-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+}
+
+.page-title {
+  font-family: var(--display);
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+
+.page-intro {
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--ink-mid);
+  max-width: 560px;
+  margin-bottom: 52px;
+  font-style: italic;
+}
+
+/* ======== WRITING LIST ======== */
+.writing-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.filter-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--ink-faint);
+  background: transparent;
+  color: var(--ink-soft);
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 2px;
+}
+
+.filter-btn:hover { border-color: var(--ink-mid); color: var(--ink); }
+.filter-btn.active { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+.writing-list { list-style: none; }
+
+.writing-item {
+  border-top: 1px solid var(--rule);
+  padding: 26px 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: start;
+  cursor: pointer;
+}
+
+.writing-item:last-child { border-bottom: 1px solid var(--rule); }
+.writing-item:hover .writing-title { color: var(--accent); }
+
+.writing-category {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.writing-category.academic { color: var(--accent); }
+.writing-category.teaching { color: var(--accent-warm); }
+.writing-category.opinion  { color: #5a5a7a; }
+.writing-category.scicomm  { color: #3a6a7a; }
+
+.writing-title {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+  transition: color 0.2s;
+}
+
+.writing-excerpt {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  max-width: 540px;
+}
+
+.writing-meta { text-align: right; flex-shrink: 0; }
+
+.writing-date {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--ink-soft);
+  letter-spacing: 0.03em;
+}
+
+/* ======== SHELF (BOOKS & FILM) ======== */
+.shelf-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.shelf-tab {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  padding: 10px 20px 12px;
+  cursor: pointer;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.shelf-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  height: 2px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+
+.shelf-tab:hover { color: var(--ink); }
+.shelf-tab.active { color: var(--ink); }
+.shelf-tab.active::after { transform: scaleX(1); }
+
+.shelf-panel { display: none; }
+.shelf-panel.active { display: block; }
+
+.shelf-intro {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-bottom: 36px;
+  max-width: 520px;
+}
+
+.shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 24px;
+}
+
+.shelf-card {
+  border: 1px solid var(--rule);
+  padding: 20px 18px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+  position: relative;
+}
+
+.shelf-card:hover {
+  border-color: var(--ink-soft);
+  transform: translateY(-2px);
+}
+
+.shelf-card-spine {
+  width: 3px;
+  height: 100%;
+  position: absolute;
+  left: 0; top: 0;
+  border-radius: 2px 0 0 2px;
+}
+
+.shelf-card-spine.books { background: var(--accent); }
+.shelf-card-spine.film  { background: var(--accent-film); }
+
+.shelf-card-year {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.shelf-card-title {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.shelf-card-author {
+  font-family: var(--serif);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+}
+
+.shelf-rating {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 10px;
+}
+
+.shelf-star {
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+
+.shelf-star.filled { color: var(--accent-warm); }
+
+.shelf-card-note {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-mid);
+}
+
+.shelf-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  margin-bottom: 10px;
+  border-radius: 2px;
+}
+
+/* ======== ABOUT ======== */
+.about-header {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  margin-bottom: 48px;
+}
+
+.about-monogram {
+  width: 68px; height: 68px;
+  background: var(--accent);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: -0.02em;
+}
+
+.about-name {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 6px;
+}
+
+.about-roles {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  line-height: 1.9;
+}
+
+.about-body h2 {
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 40px 0 14px;
+}
+
+.about-body p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--ink-mid);
+  margin-bottom: 16px;
+}
+
+.pub-list { list-style: none; margin-top: 12px; }
+
+.pub-list li {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink-mid);
+  padding: 10px 0;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+}
+
+.pub-list li:last-child { border-bottom: 1px solid var(--rule); }
+
+.pub-journal {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  flex-shrink: 0;
+  min-width: 90px;
+}
+
+/* ======== CONTACT ======== */
+.contact-intro {
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--ink-mid);
+  max-width: 520px;
+  font-style: italic;
+  margin-bottom: 48px;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-bottom: 48px;
+}
+
+.contact-cell {
+  background: var(--paper);
+  padding: 24px 28px;
+}
+
+.contact-cell-label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.contact-cell-value {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.contact-cell-value a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.contact-cell-value a:hover { opacity: 0.7; }
+
+.contact-note {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  border-left: 2px solid var(--ink-faint);
+  padding-left: 20px;
+}
+
+/* ======== ARTICLE VIEW ======== */
+.back-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 48px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
+}
+
+.back-btn:hover { color: var(--ink); }
+
+.back-btn::before {
+  content: '';
+  width: 20px; height: 1px;
+  background: currentColor;
+  transition: width 0.2s;
+}
+
+.back-btn:hover::before { width: 12px; }
+
+.article-kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.article-kicker.academic { color: var(--accent); }
+.article-kicker.teaching { color: var(--accent-warm); }
+.article-kicker.opinion  { color: #5a5a7a; }
+.article-kicker.scicomm  { color: #3a6a7a; }
+
+.article-title {
+  font-family: var(--display);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.18;
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+
+.article-byline {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.article-byline span + span::before { content: '·'; margin-right: 16px; }
+
+.article-rule {
+  width: 48px; height: 2px;
+  background: var(--accent);
+  margin-bottom: 40px;
+}
+
+.article-body {
+  font-size: 17.5px;
+  line-height: 1.85;
+  color: var(--ink-mid);
+}
+
+.article-body p { margin-bottom: 22px; }
+
+.article-body p:first-child::first-letter {
+  font-family: var(--display);
+  font-size: 4em;
+  font-weight: 700;
+  float: left;
+  line-height: 0.75;
+  margin: 8px 10px 0 0;
+  color: var(--ink);
+}
+
+.article-body em { font-style: italic; }
+.article-body strong { font-weight: 600; color: var(--ink); }
+
+/* ======== RESPONSIVE ======== */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .topbar { display: flex; }
+  .drawer { display: flex; }
+
+  .main {
+    margin-left: 0;
+    padding-top: var(--topbar-h);
+  }
+
+  .section, #article-view {
+    padding: 36px 20px 64px;
+  }
+
+  .page-title { font-size: 28px; }
+
+  .article-title { font-size: 26px; }
+
+  .writing-item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .writing-meta { text-align: left; }
+
+  .writing-title { font-size: 18px; }
+
+  .contact-grid { grid-template-columns: 1fr; }
+
+  .about-header { flex-direction: column; gap: 20px; }
+
+  .shelf-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root { --sidebar-w: 220px; }
+  .section, #article-view { padding: 52px 40px 72px; }
+  .page-title { font-size: 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- DESKTOP SIDEBAR -->
+<aside class="sidebar">
+  <span class="site-name" onclick="showSection('writing')">Nazeef</span>
+  <p class="site-tagline">Science · Teaching · Writing</p>
+  <div class="sidebar-divider"></div>
+  <nav>
+    <ul>
+      <li><a class="active" id="nav-writing"  onclick="showSection('writing')">Writing</a></li>
+      <li><a id="nav-shelf"   onclick="showSection('shelf')">Books &amp; Film</a></li>
+      <li><a id="nav-about"   onclick="showSection('about')">About</a></li>
+      <li><a id="nav-contact" onclick="showSection('contact')">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="ext-links">
+      <a href="mailto:your@email.com">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        Email
+      </a>
+      <a href="https://orcid.org" target="_blank">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+        ORCID
+      </a>
+      <a href="https://researchgate.net" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M9 9h3a3 3 0 0 1 0 6H9V9zm3 3h3"/></svg>
+        ResearchGate
+      </a>
+    </div>
+  </div>
+</aside>
+
+<!-- MOBILE TOPBAR -->
+<header class="topbar">
+  <span class="topbar-name" onclick="showSection('writing'); closeMobileMenu()">Nazeef</span>
+  <button class="burger" id="burger-btn" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- MOBILE DRAWER -->
+<div class="drawer" id="mobile-drawer">
+  <nav>
+    <ul>
+      <li><a class="active" id="mnav-writing"  onclick="showSection('writing'); closeMobileMenu()">Writing</a></li>
+      <li><a id="mnav-shelf"   onclick="showSection('shelf'); closeMobileMenu()">Books &amp; Film</a></li>
+      <li><a id="mnav-about"   onclick="showSection('about'); closeMobileMenu()">About</a></li>
+      <li><a id="mnav-contact" onclick="showSection('contact'); closeMobileMenu()">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="drawer-footer">
+    <div class="ext-links">
+      <a href="mailto:your@email.com">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        Email
+      </a>
+      <a href="https://orcid.org" target="_blank">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+        ORCID
+      </a>
+      <a href="https://researchgate.net" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M9 9h3a3 3 0 0 1 0 6H9V9zm3 3h3"/></svg>
+        ResearchGate
+      </a>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+
+  <!-- WRITING -->
+  <section class="section active" id="section-writing">
+    <p class="page-label">All writing</p>
+    <h1 class="page-title">Words on science,<br>teaching, and ideas.</h1>
+    <p class="page-intro">A personal record of thinking across research, education, and the space between the two.</p>
+    <div class="writing-filters">
+      <button class="filter-btn active" onclick="filterWriting('all', this)">All</button>
+      <button class="filter-btn" onclick="filterWriting('academic', this)">Academic</button>
+      <button class="filter-btn" onclick="filterWriting('teaching', this)">Teaching</button>
+      <button class="filter-btn" onclick="filterWriting('opinion', this)">Opinion</button>
+      <button class="filter-btn" onclick="filterWriting('scicomm', this)">Science comm.</button>
+    </div>
+    <ul class="writing-list" id="writing-list"></ul>
+  </section>
+
+  <!-- SHELF -->
+  <section class="section" id="section-shelf">
+    <p class="page-label">A personal shelf</p>
+    <h1 class="page-title">Books &amp; Film</h1>
+    <p class="page-intro">Things I have read and watched, with brief notes on what stayed with me.</p>
+    <div class="shelf-tabs">
+      <button class="shelf-tab active" onclick="switchShelf('books', this)">Books</button>
+      <button class="shelf-tab" onclick="switchShelf('film', this)">Film</button>
+    </div>
+    <div class="shelf-panel active" id="shelf-books">
+      <p class="shelf-intro">A selection of books that have shaped how I think about science, teaching, and everything adjacent.</p>
+      <div class="shelf-grid" id="books-grid"></div>
+    </div>
+    <div class="shelf-panel" id="shelf-film">
+      <p class="shelf-intro">Films I return to, or that left a mark worth noting.</p>
+      <div class="shelf-grid" id="film-grid"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="section-about">
+    <div class="about-header">
+      <div class="about-monogram">N</div>
+      <div>
+        <p class="about-name">Nazeef</p>
+        <p class="about-roles">
+          Trainee Science Teacher, The Regis School<br>
+          MSc Biotechnology · University of Portsmouth<br>
+          PGCE Secondary Science · Bath Spa University
+        </p>
+      </div>
+    </div>
+    <div class="about-body">
+      <h2>In brief</h2>
+      <p>I am a trainee science teacher and biotechnology researcher interested in the intersection of science, education, and communication. My research sits at the boundary of microbiology and synthetic biotechnology, with peer-reviewed work in Silicon, BMC Chemistry, and RSC Advances.</p>
+      <p>This site is a place for writing that does not fit neatly anywhere else: reflections on teaching, commentary on science education, and notes for a general readership on research that matters.</p>
+      <h2>Research</h2>
+      <p>My academic work spans heavy metal sensing, isotope labelling, and metabolic engineering in extremophilic microbiomes. I hold an MSc in Biotechnology with Distinction from the University of Portsmouth (2025) and am currently pursuing doctoral opportunities in environmental and synthetic biotechnology.</p>
+      <h2>Publications</h2>
+      <ul class="pub-list">
+        <li><span class="pub-journal">Silicon · 2025</span><span>Published research article, Silicon (Springer)</span></li>
+        <li><span class="pub-journal">BMC Chemistry · 2024</span><span>Published research article, BMC Chemistry</span></li>
+        <li><span class="pub-journal">RSC Advances · 2026</span><span>Research article, RSC Advances (in press)</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="section-contact">
+    <p class="page-label">Get in touch</p>
+    <h1 class="page-title">Contact</h1>
+    <p class="contact-intro">I welcome correspondence about research, science education, or writing. Response times vary during term time.</p>
+    <div class="contact-grid">
+      <div class="contact-cell">
+        <p class="contact-cell-label">Email</p>
+        <p class="contact-cell-value"><a href="mailto:your@email.com">your@email.com</a></p>
+      </div>
+      <div class="contact-cell">
+        <p class="contact-cell-label">Institution</p>
+        <p class="contact-cell-value">The Regis School</p>
+      </div>
+      <div class="contact-cell">
+        <p class="contact-cell-label">Research profile</p>
+        <p class="contact-cell-value"><a href="https://orcid.org" target="_blank">ORCID</a></p>
+      </div>
+      <div class="contact-cell">
+        <p class="contact-cell-label">Based in</p>
+        <p class="contact-cell-value">United Kingdom</p>
+      </div>
+    </div>
+    <p class="contact-note">For academic collaboration or media enquiries relating to published work, please include a brief description of your purpose in the subject line. I am not currently available for freelance commissions.</p>
+  </section>
+
+  <!-- ARTICLE VIEW -->
+  <div id="article-view">
+    <button class="back-btn" onclick="closeArticle()">Back to writing</button>
+    <p class="article-kicker" id="art-kicker"></p>
+    <h1 class="article-title" id="art-title"></h1>
+    <div class="article-byline">
+      <span id="art-date"></span>
+      <span id="art-read"></span>
+    </div>
+    <div class="article-rule"></div>
+    <div class="article-body" id="art-body"></div>
+  </div>
+
+</main>
+
+<script>
+/* ---- DATA ---- */
+const writings = [
+  { id:1, category:'academic', categoryLabel:'Academic', date:'May 2025', title:'Heavy metal sensing in freshwater: what biosensors can detect that instruments cannot', excerpt:'A discussion of biological detection thresholds and the case for whole-cell biosensors in low-resource monitoring contexts.', readTime:'9 min read', body:`<p>Conventional analytical methods for detecting heavy metals in freshwater systems are precise, but they are not always practical. Inductively coupled plasma mass spectrometry gives excellent sensitivity, yet it requires specialist equipment, trained operators, and laboratory infrastructure that many field-based or low-income monitoring programmes simply cannot access.</p><p>Whole-cell biosensors offer a different kind of precision. Rather than measuring total metal concentration, they respond to the bioavailable fraction — the portion of a contaminant that living organisms can actually encounter and take up. This distinction matters enormously for environmental risk assessment, which is ultimately about biological impact, not total elemental abundance.</p><p>The engineering challenge is specificity. Metal-responsive promoters drawn from native resistance operons (such as <em>arsR</em>, <em>merR</em>, or <em>cadC</em>) are well characterised, but their dynamic ranges do not always map cleanly onto regulatory thresholds. Calibration, signal drift, and matrix effects in real environmental samples remain active research problems.</p>` },
+  { id:2, category:'teaching', categoryLabel:'Teaching', date:'March 2025', title:'On teaching the particle model to Year 7: what actually works', excerpt:'A classroom reflection on the gap between how textbooks represent particles and how students genuinely build mental models of matter.', readTime:'7 min read', body:`<p>The particle model is one of those topics that seems simple and turns out to be treacherous. Textbooks present it with clean diagrams and neat state transitions. Students arrive with a decade of informal experience of solids, liquids, and gases, and that prior knowledge is both an asset and a serious obstacle.</p><p>The most persistent misconception I have encountered at Key Stage 3 is that particles in a liquid are touching and stationary. The dynamic, vibrating, gap-containing reality of even a dense liquid is genuinely counter-intuitive. No diagram resolves this on its own. What does seem to work is asking students to explain macroscopic observations before they have access to the model, and then introducing the model as an answer to a puzzle they already feel.</p>` },
+  { id:3, category:'opinion', categoryLabel:'Opinion', date:'January 2025', title:'The PhD system is not designed for people who also want to teach', excerpt:'A personal reflection on the structural friction between doctoral research and the decision to pursue a career in secondary education.', readTime:'6 min read', body:`<p>I want to do both. I want to run experiments and write papers, and I also want to stand in front of a Year 9 class and explain why isotopes exist. Most institutional structures are not designed for this combination, and it is worth saying so plainly.</p><p>Doctoral programmes select for research intensity. Teaching posts select for classroom commitment. The assumption embedded in both pipelines is that you will choose, and choose early. There are exceptions, but these are exceptions, not the norm.</p><p>What I find strange is that the skills transfer so well. Explaining a mechanism clearly enough that a non-specialist understands it is one of the most demanding things you can do. If I am a better researcher for having to teach, and a better teacher for having done research, the pipeline should probably reflect that.</p>` },
+  { id:4, category:'scicomm', categoryLabel:'Science communication', date:'November 2024', title:'What extremophiles can tell us about life elsewhere', excerpt:'From deep-sea hydrothermal vents to high-altitude cold springs, the microorganisms that thrive at limits expand our sense of what biology can do.', readTime:'8 min read', body:`<p>For most of the history of biology, life was assumed to require moderate conditions: liquid water, mild temperatures, organic carbon, sunlight or something close to it. The discovery of hydrothermal vent communities in the late 1970s changed that picture more thoroughly than almost any other finding in twentieth-century biology.</p><p>Extremophiles are organisms that do not merely tolerate conditions that would kill most life — they require those conditions. Thermoacidophilic archaea grow fastest at temperatures above 80 degrees and pH values below 3. Halophiles accumulate salt concentrations inside their cells that would denature a typical protein.</p><p>The organisms I work with most closely are thermophilic acetogens: bacteria that grow in hot, anaerobic, chemically simple environments and fix carbon dioxide using hydrogen as their sole energy source. They are extraordinary engineering objects and, I think, genuinely important to how we model early Earth biochemistry.</p>` },
+  { id:5, category:'academic', categoryLabel:'Academic', date:'September 2024', title:'Stable isotope labelling in geothermal microbiomes: a methodological note', excerpt:'Reflections on the practical challenges of applying isotope ratio analysis to complex microbial communities in thermally active environments.', readTime:'5 min read', body:`<p>Stable isotope labelling is one of the most powerful tools available for tracing carbon and nitrogen flow through a microbial community. The principle is straightforward: introduce an isotopically labelled substrate, wait, and then ask where the label went. The practice is considerably more complicated, particularly in geothermal systems where the chemical background is already unusual.</p><p>High temperatures and extreme pH values impose constraints on sample collection and preservation that are easily underestimated. Enzymatic activity continues during collection unless samples are immediately quenched, and quenching methods that work at ambient temperatures may behave differently at 70 degrees.</p>` }
+];
+
+const books = [
+  { title:'The Selfish Gene', author:'Richard Dawkins', year:'1976', stars:5, tag:'Biology', note:'The book that made me certain about science as a vocation. Still the clearest account of evolution by natural selection for a general reader.' },
+  { title:'Being Mortal', author:'Atul Gawande', year:'2014', stars:5, tag:'Medicine', note:'On ageing and the limits of medicine. Changed how I think about care, autonomy, and what doctors are actually for.' },
+  { title:'The Demon-Haunted World', author:'Carl Sagan', year:'1995', stars:5, tag:'Science', note:'The best single argument for scientific thinking as a civic virtue. Required reading before any discussion of pseudoscience.' },
+  { title:'Educated', author:'Tara Westover', year:'2018', stars:4, tag:'Memoir', note:'A reminder that access to education is not given and is worth fighting for. Impossible to put down.' },
+  { title:'Why I am Not a Christian', author:'Bertrand Russell', year:'1927', stars:4, tag:'Philosophy', note:'Precise, unsparing, and bracing. The essays on education alone justify the read.' },
+  { title:'Bad Science', author:'Ben Goldacre', year:'2008', stars:4, tag:'Science comm.', note:'Indispensable for anyone who communicates science to a public audience. Particularly sharp on pharmaceutical trials.' }
+];
+
+const films = [
+  { title:'Arrival', author:'dir. Denis Villeneuve', year:'2016', stars:5, tag:'Science fiction', note:'The most intellectually honest science fiction film I have seen. The linguistics is taken seriously. The ending earns its weight.' },
+  { title:'Oppenheimer', author:'dir. Christopher Nolan', year:'2023', stars:5, tag:'Historical', note:'Science, ambition, and moral catastrophe in three hours. Cillian Murphy carries the entire weight of the twentieth century.' },
+  { title:'The Lives of Others', author:'dir. Florian Henckel', year:'2006', stars:5, tag:'Drama', note:'On surveillance, conscience, and the small acts that define character. One of the finest films made in any language.' },
+  { title:'Contact', author:'dir. Robert Zemeckis', year:'1997', stars:4, tag:'Science fiction', note:'The most scientifically literate mainstream film about the search for extraterrestrial intelligence. Jodie Foster is extraordinary.' },
+  { title:'Parasite', author:'dir. Bong Joon-ho', year:'2019', stars:5, tag:'Drama', note:'Structurally immaculate. Every object placed with purpose. The film as argument about class and the architecture that encodes it.' },
+  { title:'Hidden Figures', author:'dir. Theodore Melfi', year:'2016', stars:4, tag:'Historical', note:'A deserved corrective to a long omission in the history of science. The mathematics is treated with real respect.' }
+];
+
+/* ---- RENDER WRITING ---- */
+function renderList(filter) {
+  const list = document.getElementById('writing-list');
+  const items = filter === 'all' ? writings : writings.filter(w => w.category === filter);
+  list.innerHTML = items.map(w => `
+    <li class="writing-item" onclick="openArticle(${w.id})">
+      <div>
+        <p class="writing-category ${w.category}">${w.categoryLabel}</p>
+        <p class="writing-title">${w.title}</p>
+        <p class="writing-excerpt">${w.excerpt}</p>
+      </div>
+      <div class="writing-meta"><p class="writing-date">${w.date}</p></div>
+    </li>`).join('');
+}
+
+function filterWriting(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderList(cat);
+}
+
+/* ---- RENDER SHELF ---- */
+function stars(n) {
+  return Array.from({length:5}, (_,i) =>
+    `<span class="shelf-star ${i < n ? 'filled' : ''}">&#9733;</span>`).join('');
+}
+
+function renderShelf(items, gridId, type) {
+  document.getElementById(gridId).innerHTML = items.map(item => `
+    <div class="shelf-card">
+      <div class="shelf-card-spine ${type}"></div>
+      <p class="shelf-card-year">${item.year}</p>
+      <p class="shelf-tag">${item.tag}</p>
+      <p class="shelf-card-title">${item.title}</p>
+      <p class="shelf-card-author">${item.author}</p>
+      <div class="shelf-rating">${stars(item.stars)}</div>
+      <p class="shelf-card-note">${item.note}</p>
+    </div>`).join('');
+}
+
+function switchShelf(panel, btn) {
+  document.querySelectorAll('.shelf-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.shelf-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('shelf-' + panel).classList.add('active');
+}
+
+/* ---- NAVIGATION ---- */
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('article-view').classList.remove('active');
+  const s = document.getElementById('section-' + name);
+  if (s) s.classList.add('active');
+  ['nav-writing','nav-shelf','nav-about','nav-contact',
+   'mnav-writing','mnav-shelf','mnav-about','mnav-contact'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('active');
+  });
+  const d = document.getElementById('nav-' + name);
+  const m = document.getElementById('mnav-' + name);
+  if (d) d.classList.add('active');
+  if (m) m.classList.add('active');
+}
+
+function openArticle(id) {
+  const w = writings.find(x => x.id === id);
+  if (!w) return;
+  document.getElementById('art-kicker').textContent = w.categoryLabel;
+  document.getElementById('art-kicker').className = 'article-kicker ' + w.category;
+  document.getElementById('art-title').textContent = w.title;
+  document.getElementById('art-date').textContent = w.date;
+  document.getElementById('art-read').textContent = w.readTime;
+  document.getElementById('art-body').innerHTML = w.body;
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('article-view').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function closeArticle() {
+  document.getElementById('article-view').classList.remove('active');
+  document.getElementById('section-writing').classList.add('active');
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById('nav-writing') && document.getElementById('nav-writing').classList.add('active');
+  document.getElementById('mnav-writing') && document.getElementById('mnav-writing').classList.add('active');
+}
+
+/* ---- MOBILE MENU ---- */
+function toggleMenu() {
+  const drawer = document.getElementById('mobile-drawer');
+  const burger = document.getElementById('burger-btn');
+  drawer.classList.toggle('open');
+  burger.classList.toggle('open');
+}
+
+function closeMobileMenu() {
+  document.getElementById('mobile-drawer').classList.remove('open');
+  document.getElementById('burger-btn').classList.remove('open');
+}
+
+/* ---- INIT ---- */
+renderList('all');
+renderShelf(books, 'books-grid', 'books');
+renderShelf(films, 'film-grid', 'film');
+</script>
+</body>
+</html>
