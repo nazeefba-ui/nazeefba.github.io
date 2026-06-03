@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Thinking Specimen</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="description" content="Science, Ideas, and Everything Between">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -121,8 +124,13 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
 .article-kicker{font-family:var(--mono);font-size:11px;font-weight:300;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
 .article-kicker.academic{color:var(--accent)}.article-kicker.opinion{color:#5a5a7a}.article-kicker.scicomm{color:#3a6a7a}
 .article-title{font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:-.025em;line-height:1.18;color:var(--ink);margin-bottom:20px}
-.article-byline{font-family:var(--mono);font-size:12px;font-weight:300;letter-spacing:.04em;color:var(--ink-soft);margin-bottom:36px;display:flex;align-items:center;gap:16px}
+.article-byline{font-family:var(--mono);font-size:12px;font-weight:300;letter-spacing:.04em;color:var(--ink-soft);margin-bottom:36px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .article-byline span+span::before{content:'·';margin-right:16px}
+.share-btn{font-family:var(--mono);font-size:11px;font-weight:300;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);background:none;border:1px solid var(--ink-faint);border-radius:2px;padding:5px 12px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.share-btn:hover{border-color:var(--accent);color:var(--accent)}
+.share-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+.share-toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-family:var(--mono);font-size:12px;padding:10px 20px;border-radius:2px;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:9999;white-space:nowrap}
+.share-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .article-rule{width:48px;height:2px;background:var(--accent);margin-bottom:40px}
 .article-image{width:100%;max-height:320px;object-fit:cover;border-radius:2px;margin-bottom:36px}
 .article-body{font-size:18px;line-height:2;color:var(--ink-mid);max-width:640px}
@@ -143,21 +151,38 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
 .related-card-cat{font-family:var(--mono);font-size:10px;font-weight:300;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
 .related-card-cat.academic{color:var(--accent)}.related-card-cat.opinion{color:#5a5a7a}.related-card-cat.scicomm{color:#3a6a7a}
 .related-card-title{font-family:var(--display);font-size:15px;font-weight:400;line-height:1.3;color:var(--ink);transition:color .2s}
-@media(max-width:768px){.sidebar{display:none}.topbar{display:flex}.drawer{display:flex}.main{margin-left:0;padding-top:var(--topbar-h)}.section,#article-view{padding:36px 20px 64px}.page-title{font-size:26px}.article-title{font-size:24px}.writing-item{grid-template-columns:1fr;gap:4px}.writing-meta{text-align:left}.writing-title{font-size:18px}.contact-grid{grid-template-columns:1fr}.about-header{flex-direction:column;gap:20px}.shelf-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}.related-grid{grid-template-columns:1fr}.featured-card{padding:20px}.featured-title{font-size:18px}}
-@media(min-width:769px) and (max-width:1024px){:root{--sidebar-w:220px}.section,#article-view{padding:52px 40px 72px}.page-title{font-size:32px}}
+@media(max-width:768px){
+  .sidebar{display:none}.topbar{display:flex}.drawer{display:flex}
+  .main{margin-left:0;padding-top:var(--topbar-h)}
+  .section,#article-view{padding:36px 20px 64px}
+  .page-title{font-size:26px}.article-title{font-size:24px}
+  .writing-item{grid-template-columns:1fr;gap:4px}.writing-meta{text-align:left}
+  .writing-title{font-size:18px}.contact-grid{grid-template-columns:1fr}
+  .about-header{flex-direction:column;gap:20px}
+  .shelf-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}
+  .related-grid{grid-template-columns:1fr}
+  .featured-card{padding:20px}.featured-title{font-size:18px}
+}
+@media(min-width:769px) and (max-width:1024px){
+  :root{--sidebar-w:220px}
+  .section,#article-view{padding:52px 40px 72px}
+  .page-title{font-size:32px}
+}
 </style>
 </head>
 <body>
 <div id="progress-bar"></div>
+<div class="share-toast" id="share-toast">Link copied to clipboard</div>
+
 <aside class="sidebar">
-  <span class="site-name" onclick="showSection('writing')">The Thinking Specimen</span>
+  <span class="site-name" onclick="navigate('writing')">The Thinking Specimen</span>
   <p class="site-tagline">Science, Ideas, and Everything Between</p>
   <div class="sidebar-divider"></div>
   <nav><ul>
-    <li><a class="active" id="nav-writing" onclick="showSection('writing')">Writing</a></li>
-    <li><a id="nav-shelf" onclick="showSection('shelf')">Books &amp; Screen</a></li>
-    <li><a id="nav-about" onclick="showSection('about')">About</a></li>
-    <li><a id="nav-contact" onclick="showSection('contact')">Contact</a></li>
+    <li><a class="active" id="nav-writing" onclick="navigate('writing')">Writing</a></li>
+    <li><a id="nav-shelf" onclick="navigate('shelf')">Books &amp; Screen</a></li>
+    <li><a id="nav-about" onclick="navigate('about')">About</a></li>
+    <li><a id="nav-contact" onclick="navigate('contact')">Contact</a></li>
   </ul></nav>
   <div class="sidebar-footer"><div class="ext-links">
     <a href="mailto:contact@nazeefba.com"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>Email</a>
@@ -165,16 +190,18 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
     <a href="" target="_blank"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M9 9h3a3 3 0 0 1 0 6H9V9zm3 3h3"/></svg>ResearchGate</a>
   </div></div>
 </aside>
+
 <header class="topbar">
-  <span class="topbar-name" onclick="showSection('writing');closeMobileMenu()">The Thinking Specimen</span>
+  <span class="topbar-name" onclick="navigate('writing');closeMobileMenu()">The Thinking Specimen</span>
   <button class="burger" id="burger-btn" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
 </header>
+
 <div class="drawer" id="mobile-drawer">
   <nav><ul>
-    <li><a class="active" id="mnav-writing" onclick="showSection('writing');closeMobileMenu()">Writing</a></li>
-    <li><a id="mnav-shelf" onclick="showSection('shelf');closeMobileMenu()">Books &amp; Screen</a></li>
-    <li><a id="mnav-about" onclick="showSection('about');closeMobileMenu()">About</a></li>
-    <li><a id="mnav-contact" onclick="showSection('contact');closeMobileMenu()">Contact</a></li>
+    <li><a class="active" id="mnav-writing" onclick="navigate('writing');closeMobileMenu()">Writing</a></li>
+    <li><a id="mnav-shelf" onclick="navigate('shelf');closeMobileMenu()">Books &amp; Screen</a></li>
+    <li><a id="mnav-about" onclick="navigate('about');closeMobileMenu()">About</a></li>
+    <li><a id="mnav-contact" onclick="navigate('contact');closeMobileMenu()">Contact</a></li>
   </ul></nav>
   <div class="drawer-footer"><div class="ext-links">
     <a href="mailto:contact@nazeefba.com"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>Email</a>
@@ -182,6 +209,7 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
     <a href="" target="_blank"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M9 9h3a3 3 0 0 1 0 6H9V9zm3 3h3"/></svg>ResearchGate</a>
   </div></div>
 </div>
+
 <main class="main">
   <section class="section active" id="section-writing">
     <p class="page-label">All writing</p>
@@ -201,6 +229,7 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
     </div>
     <ul class="writing-list" id="writing-list"></ul>
   </section>
+
   <section class="section" id="section-shelf">
     <p class="page-label">A personal shelf</p>
     <h1 class="page-title">Books &amp; Screen</h1>
@@ -214,6 +243,7 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
     <div class="shelf-panel" id="shelf-film"><p class="shelf-intro">Films I return to, or that left a mark worth noting.</p><div class="shelf-grid" id="film-grid"></div></div>
     <div class="shelf-panel" id="shelf-tv"><p class="shelf-intro">TV series that held my attention, provoked thought, or simply refused to let go.</p><div class="shelf-grid" id="tv-grid"></div></div>
   </section>
+
   <section class="section" id="section-about">
     <div class="about-header"><div class="about-monogram">N</div><div><p class="about-name">Nazeef</p><p class="about-roles">PhD Candidate (September 2026 start)</p></div></div>
     <div class="about-body">
@@ -225,6 +255,7 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
       <ul class="pub-list"><li><span class="pub-journal">RSC Advances · 2026</span><span>Research article, RSC Advances (in press)</span></li><li><span class="pub-journal">Silicon · 2025</span><span>Published research article, Silicon (Springer)</span></li><li><span class="pub-journal">BMC Chemistry · 2024</span><span>Published research article, BMC Chemistry</span></li></ul>
     </div>
   </section>
+
   <section class="section" id="section-contact">
     <p class="page-label">Get in touch</p>
     <h1 class="page-title">Contact</h1>
@@ -237,11 +268,19 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
     </div>
     <p class="contact-note">For academic collaboration or media enquiries relating to published work, please include a brief description of your purpose in the subject line.</p>
   </section>
+
   <div id="article-view">
-    <button class="back-btn" onclick="closeArticle()">Back to writing</button>
+    <button class="back-btn" onclick="navigate('writing')">Back to writing</button>
     <p class="article-kicker" id="art-kicker"></p>
     <h1 class="article-title" id="art-title"></h1>
-    <div class="article-byline"><span id="art-date"></span><span id="art-read"></span></div>
+    <div class="article-byline">
+      <span id="art-date"></span>
+      <span id="art-read"></span>
+      <button class="share-btn" onclick="shareArticle()">
+        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Share
+      </button>
+    </div>
     <div class="article-rule"></div>
     <img class="article-image" id="art-image" style="display:none" alt="">
     <div class="article-body" id="art-body"></div>
@@ -251,28 +290,190 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
     </div>
   </div>
 </main>
+
 <script>
-const writings=[{"id":1,"category":"opinion","categoryLabel":"Opinion","date":"2 June 2026","title":"Bigotry Is Not an Opinion","excerpt":"Bigotry in Nigeria thrives not as ignorance but as a calculated performance, sustained by elites who, even after living its contradictions, cling to prejudice as both habit and political tool.","readTime":"4 min read","image":"","body":"<p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">There is a particular species of Nigerian man, and I have met him at every level of our national life, who will dine lavishly at your table, accept your patronage with warmth, rise on the ladder you built, and then turn around to question the legitimacy of your very existence. He does not see the irony. That is the first symptom.<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">I want to argue something that will make comfortable people uncomfortable: bigotry is not an opinion. It is a malfunction.<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">Gordon Allport, in his 1954 work \"The Nature of Prejudice,\" gave this malfunction its clinical name. He called it \"refencing,\" the mental gymnastics by which the bigot encounters someone who disproves his prejudice and simply reclassifies that person as an exception, leaving the hatred intact and freshly polished. Experience teaches the rest of us. The bigot takes experience and files it away where it cannot disturb anything.<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">Nigeria, bless her, provides the bigot with an almost professionally ideal environment.<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">We are 250 ethnic groups, several major religions, one colonial boundary drawn by men who had never visited, and a political culture that has historically rewarded those who can turn neighbour against neighbour faster than the other fellow. Into this arrangement, bigotry does not arrive as a flaw. It arrives as a career strategy.<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">The question is not whether Nigerians are uniquely hateful. We are not. The question is why hatred here so often flows downward from the elite rather than upward from the street.<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span lang=\"EN-GB\" style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">A study in the journal Social Neuroscience mapping the neural mechanics of intergroup hostility found that acting antagonism toward an out-group triggers a sharp spike in the brain's nucleus accumbens and reward networks. Bigotry, in other words, feels pleasant. It offers the warmth of belonging, the convenience of a scapegoat, and the luxury of never having to think too carefully. For the Nigerian political class, it offers something more: distraction. When the roads dissolve into memory and the hospitals are merely decorative, nothing clears the public mind quite like a well-aimed tribal insult.<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span lang=\"EN-GB\" style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">I find this almost admirable in its cynicism, if I am being satirical, which I am.<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">The truly spectacular thing about Nigerian bigotry, the thing that should earn its own chapter in some future sociological textbook, is how it flourishes most aggressively in people who have crossed every boundary they claim to despise. The man who has worked across ethnic lines, been promoted across religious lines, eaten across every cultural line available, and still arrives at his keyboard or his podium breathing fire about the unworthiness of the very communities that carried him. He has lived the refutation of his own argument and remained entirely unconvinced.<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">There is a word for this. Several, actually. I will stay with \"illness.\"<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">Wole Soyinka, who has spent a career watching Nigeria perform this particular theatre, wrote in \"The Open Sore of a Continent\" about the elite's calculated deployment of identity as a substitute for ideology. What he described was not passion. It was performance: hatred as political technology, tribalism as a tool kept in the drawer beside the pen and the phone. The drawer is always unlocked.<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">Social media has not created this pathology. It has simply given it a microphone, removed the editor, and installed an audience programmed to applaud. A bigoted thought that once required a newspaper to reject it now travels at the speed of WiFi and arrives pre-liked.<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">I want to be fair, because fairness is part of my affliction as a writer. There are those who argue that ethnic and religious expression is not inherently hateful, that identity pride is legitimate, that Nigerians are simply being honest about who they are. I agree, to a point. Identity is not prejudice. The distinction is simple: identity says \"I am this.\" Bigotry says \"and therefore you are less.\"<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">The moment the personal becomes a weapon, we have crossed from culture into pathology.<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">From where I sit, the saddest version of this story is not the provincial man who has never left his village and fears what he does not know. That fear is at least traceable. The saddest version is the educated, widely-traveled, nationally-decorated Nigerian who has accumulated every reason to know better, and who reaches instead, at the first moment of political frustration or personal grievance, for the tribal slur, the religious insinuation, the ethnic dog-whistle blown just loudly enough for the right ears.<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">He is not expressing identity. He is confessing failure.<o:p></o:p></span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">&nbsp;</span></p><p class=\"MsoNormal\" style=\"margin: 0in; font-size: medium; font-family: Aptos, sans-serif; caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0);\"><span style=\"font-family: &quot;Segoe UI&quot;, sans-serif;\">Nigeria is too serious a project, too improbable a survival, too genuinely extraordinary an experiment in human variety to be held hostage to this particular sickness. We have survived civil war, military boots, and economic sabotage of championship calibre. The one thing I believe we cannot indefinitely survive is the willingness of our own elite to burn the house for the pleasure of watching a particular neighbour's room catch first.<o:p></o:p></span></p>"}],books=[],films=[],tvSeries=[];
-let currentFilter='all',currentSearch='',featuredId=null;
-function getSortedWritings(){return[...writings].sort((a,b)=>b.id-a.id);}
-function updateCounts(){const all=writings.length;document.getElementById('count-all').textContent=all?'('+all+')':'';['academic','opinion','scicomm'].forEach(c=>{const el=document.getElementById('count-'+c);if(el){const n=writings.filter(w=>w.category===c).length;el.textContent=n?'('+n+')':'';}});}
-function renderFeatured(){const container=document.getElementById('featured-container');if(!writings.length){container.innerHTML='';return;}const sorted=getSortedWritings();const featured=featuredId?writings.find(w=>w.id===featuredId):sorted[0];if(!featured){container.innerHTML='';return;}container.innerHTML=`<div class="featured-card" onclick="openArticle(${featured.id})"><p class="featured-label">Featured</p><p class="featured-title">${featured.title}</p><p class="featured-excerpt">${featured.excerpt}</p><div class="featured-meta"><span>${featured.categoryLabel}</span><span>${featured.date}</span><span>${featured.readTime}</span></div></div>`;}
-function renderList(filter,search){const list=document.getElementById('writing-list');let items=getSortedWritings();if(filter&&filter!=='all')items=items.filter(w=>w.category===filter);if(search){const q=search.toLowerCase();items=items.filter(w=>w.title.toLowerCase().includes(q)||w.excerpt.toLowerCase().includes(q));}if(!writings.length){list.innerHTML='<li class="empty-writing"><p>No articles yet.</p></li>';return;}if(!items.length){list.innerHTML='<li class="no-results">No articles match your search.</li>';return;}list.innerHTML=items.map(w=>`<li class="writing-item" onclick="openArticle(${w.id})"><div><p class="writing-category ${w.category}">${w.categoryLabel}</p><p class="writing-title">${w.title}</p><p class="writing-excerpt">${w.excerpt}</p></div><div class="writing-meta"><p class="writing-date">${w.date}</p></div></li>`).join('');}
-function filterWriting(c,b){currentFilter=c;document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderList(c,currentSearch);}
-function handleSearch(val){currentSearch=val;document.getElementById('search-clear').classList.toggle('visible',val.length>0);renderList(currentFilter,val);}
-function clearSearch(){document.getElementById('search-input').value='';document.getElementById('search-clear').classList.remove('visible');currentSearch='';renderList(currentFilter,'');}
-function stars(n){return Array.from({length:5},(_,i)=>`<span class="shelf-star ${i<n?'filled':''}">&#9733;</span>`).join('');}
-function renderShelf(items,gid,type){const g=document.getElementById(gid);if(!g)return;if(!items.length){g.innerHTML='<p class="shelf-empty">Nothing added yet.</p>';return;}g.innerHTML=items.map(item=>`<div class="shelf-card"><div class="shelf-card-spine ${type}"></div><p class="shelf-card-year">${item.year}</p><span class="shelf-tag">${item.tag}</span><p class="shelf-card-title">${item.title}</p><p class="shelf-card-author">${item.author}</p><div class="shelf-rating">${stars(item.stars)}</div><p class="shelf-card-note">${item.note}</p></div>`).join('');}
-function switchShelf(p,b){document.querySelectorAll('.shelf-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.shelf-panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('shelf-'+p).classList.add('active');}
-function showSection(name){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('article-view').classList.remove('active');const s=document.getElementById('section-'+name);if(s)s.classList.add('active');['nav-writing','nav-shelf','nav-about','nav-contact','mnav-writing','mnav-shelf','mnav-about','mnav-contact'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active')});const d=document.getElementById('nav-'+name),m=document.getElementById('mnav-'+name);if(d)d.classList.add('active');if(m)m.classList.add('active');hideProgressBar();}
-function openArticle(id){const w=writings.find(x=>x.id===id);if(!w)return;document.getElementById('art-kicker').textContent=w.categoryLabel;document.getElementById('art-kicker').className='article-kicker '+w.category;document.getElementById('art-title').textContent=w.title;document.getElementById('art-date').textContent=w.date;document.getElementById('art-read').textContent=w.readTime;document.getElementById('art-body').innerHTML=w.body;const img=document.getElementById('art-image');if(w.image){img.src=w.image;img.style.display='block';}else{img.style.display='none';}const related=writings.filter(x=>x.id!==id&&x.category===w.category).slice(0,2);const rs=document.getElementById('related-section');if(related.length){document.getElementById('related-grid').innerHTML=related.map(r=>`<div class="related-card" onclick="openArticle(${r.id})"><p class="related-card-cat ${r.category}">${r.categoryLabel}</p><p class="related-card-title">${r.title}</p></div>`).join('');rs.style.display='block';}else{rs.style.display='none';}document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('article-view').classList.add('active');window.scrollTo(0,0);initProgressBar();}
-function closeArticle(){document.getElementById('article-view').classList.remove('active');document.getElementById('section-writing').classList.add('active');['nav-writing','mnav-writing'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('active')});hideProgressBar();}
-function initProgressBar(){const bar=document.getElementById('progress-bar');bar.classList.add('visible');updateProgressBar();window.addEventListener('scroll',updateProgressBar);}
-function updateProgressBar(){const article=document.getElementById('article-view');if(!article.classList.contains('active'))return;const pct=document.documentElement.scrollHeight-window.innerHeight>0?(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100:0;document.getElementById('progress-bar').style.width=pct+'%';}
-function hideProgressBar(){const bar=document.getElementById('progress-bar');bar.classList.remove('visible');bar.style.width='0%';window.removeEventListener('scroll',updateProgressBar);}
-function toggleMenu(){document.getElementById('mobile-drawer').classList.toggle('open');document.getElementById('burger-btn').classList.toggle('open');}
-function closeMobileMenu(){document.getElementById('mobile-drawer').classList.remove('open');document.getElementById('burger-btn').classList.remove('open');}
-updateCounts();renderFeatured();renderList('all','');renderShelf(books,'books-grid','books');renderShelf(films,'film-grid','film');renderShelf(tvSeries,'tv-grid','tv');
+const writings=[{"id": 1, "category": "opinion", "categoryLabel": "Opinion", "date": "2 June 2026", "title": "Bigotry Is Not an Opinion", "excerpt": "Bigotry in Nigeria thrives not as ignorance but as a calculated performance, sustained by elites who, even after living its contradictions, cling to prejudice as both habit and political tool.", "readTime": "4 min read", "image": "", "body": "<p>There is a particular species of Nigerian man, and I have met him at every level of our national life, who will dine lavishly at your table, accept your patronage with warmth, rise on the ladder you built, and then turn around to question the legitimacy of your very existence. He does not see the irony. That is the first symptom.</p><p>I want to argue something that will make comfortable people uncomfortable: bigotry is not an opinion. It is a malfunction.</p><p>Gordon Allport, in his 1954 work \"The Nature of Prejudice,\" gave this malfunction its clinical name. He called it \"refencing,\" the mental gymnastics by which the bigot encounters someone who disproves his prejudice and simply reclassifies that person as an exception, leaving the hatred intact and freshly polished. Experience teaches the rest of us. The bigot takes experience and files it away where it cannot disturb anything.</p><p>Nigeria, bless her, provides the bigot with an almost professionally ideal environment.</p><p>We are 250 ethnic groups, several major religions, one colonial boundary drawn by men who had never visited, and a political culture that has historically rewarded those who can turn neighbour against neighbour faster than the other fellow. Into this arrangement, bigotry does not arrive as a flaw. It arrives as a career strategy.</p><p>The question is not whether Nigerians are uniquely hateful. We are not. The question is why hatred here so often flows downward from the elite rather than upward from the street.</p><p>A study in the journal Social Neuroscience mapping the neural mechanics of intergroup hostility found that acting antagonism toward an out-group triggers a sharp spike in the brain's nucleus accumbens and reward networks. Bigotry, in other words, feels pleasant. It offers the warmth of belonging, the convenience of a scapegoat, and the luxury of never having to think too carefully. For the Nigerian political class, it offers something more: distraction. When the roads dissolve into memory and the hospitals are merely decorative, nothing clears the public mind quite like a well-aimed tribal insult.</p><p>I find this almost admirable in its cynicism, if I am being satirical, which I am.</p><p>The truly spectacular thing about Nigerian bigotry, the thing that should earn its own chapter in some future sociological textbook, is how it flourishes most aggressively in people who have crossed every boundary they claim to despise. The man who has worked across ethnic lines, been promoted across religious lines, eaten across every cultural line available, and still arrives at his keyboard or his podium breathing fire about the unworthiness of the very communities that carried him. He has lived the refutation of his own argument and remained entirely unconvinced.</p><p>There is a word for this. Several, actually. I will stay with \"illness.\"</p><p>Wole Soyinka, who has spent a career watching Nigeria perform this particular theatre, wrote in \"The Open Sore of a Continent\" about the elite's calculated deployment of identity as a substitute for ideology. What he described was not passion. It was performance: hatred as political technology, tribalism as a tool kept in the drawer beside the pen and the phone. The drawer is always unlocked.</p><p>Social media has not created this pathology. It has simply given it a microphone, removed the editor, and installed an audience programmed to applaud. A bigoted thought that once required a newspaper to reject it now travels at the speed of WiFi and arrives pre-liked.</p><p>I want to be fair, because fairness is part of my affliction as a writer. There are those who argue that ethnic and religious expression is not inherently hateful, that identity pride is legitimate, that Nigerians are simply being honest about who they are. I agree, to a point. Identity is not prejudice. The distinction is simple: identity says \"I am this.\" Bigotry says \"and therefore you are less.\"</p><p>The moment the personal becomes a weapon, we have crossed from culture into pathology.</p><p>From where I sit, the saddest version of this story is not the provincial man who has never left his village and fears what he does not know. That fear is at least traceable. The saddest version is the educated, widely-traveled, nationally-decorated Nigerian who has accumulated every reason to know better, and who reaches instead, at the first moment of political frustration or personal grievance, for the tribal slur, the religious insinuation, the ethnic dog-whistle blown just loudly enough for the right ears.</p><p>He is not expressing identity. He is confessing failure.</p><p>Nigeria is too serious a project, too improbable a survival, too genuinely extraordinary an experiment in human variety to be held hostage to this particular sickness. We have survived civil war, military boots, and economic sabotage of championship calibre. The one thing I believe we cannot indefinitely survive is the willingness of our own elite to burn the house for the pleasure of watching a particular neighbour's room catch first.</p>", "slug": "bigotry-is-not-an-opinion"}];
+const books=[];
+const films=[];
+const tvSeries=[];
+
+let currentFilter='all', currentSearch='', featuredId=null;
+
+function slugify(t){return t.toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,60);}
+
+function getHash(){return window.location.hash.slice(1);}
+
+function navigate(target){
+  window.location.hash = target;
+}
+
+function handleHashChange(){
+  const hash = getHash();
+  if(hash.startsWith('article/')){
+    const slug = hash.slice(8);
+    const w = writings.find(x=>x.slug===slug);
+    if(w){ openArticleView(w); return; }
+  }
+  const section = hash||'writing';
+  if(['writing','shelf','about','contact'].includes(section)){
+    showSection(section);
+  } else {
+    showSection('writing');
+  }
+}
+
+window.addEventListener('hashchange', handleHashChange);
+
+function showSection(name){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('article-view').classList.remove('active');
+  const s=document.getElementById('section-'+name);
+  if(s) s.classList.add('active');
+  ['nav-writing','nav-shelf','nav-about','nav-contact','mnav-writing','mnav-shelf','mnav-about','mnav-contact'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.classList.remove('active');
+  });
+  const nd=document.getElementById('nav-'+name), mn=document.getElementById('mnav-'+name);
+  if(nd) nd.classList.add('active'); if(mn) mn.classList.add('active');
+  hideProgressBar();
+  if(name==='writing'){ updateCounts(); renderFeatured(); renderList(currentFilter,currentSearch); }
+}
+
+function getSortedWritings(){ return[...writings].sort((a,b)=>b.id-a.id); }
+
+function updateCounts(){
+  const all=writings.length;
+  document.getElementById('count-all').textContent=all?'('+all+')':'';
+  ['academic','opinion','scicomm'].forEach(c=>{
+    const el=document.getElementById('count-'+c);
+    if(el){ const n=writings.filter(w=>w.category===c).length; el.textContent=n?'('+n+')':''; }
+  });
+}
+
+function renderFeatured(){
+  const container=document.getElementById('featured-container');
+  if(!writings.length){ container.innerHTML=''; return; }
+  const featured=featuredId?writings.find(w=>w.id===featuredId):getSortedWritings()[0];
+  if(!featured){ container.innerHTML=''; return; }
+  container.innerHTML=`<div class="featured-card" onclick="navigate('article/${featured.slug}')"><p class="featured-label">Featured</p><p class="featured-title">${featured.title}</p><p class="featured-excerpt">${featured.excerpt}</p><div class="featured-meta"><span>${featured.categoryLabel}</span><span>${featured.date}</span><span>${featured.readTime}</span></div></div>`;
+}
+
+function renderList(filter,search){
+  const list=document.getElementById('writing-list');
+  let items=getSortedWritings();
+  if(filter&&filter!=='all') items=items.filter(w=>w.category===filter);
+  if(search){ const q=search.toLowerCase(); items=items.filter(w=>w.title.toLowerCase().includes(q)||w.excerpt.toLowerCase().includes(q)); }
+  if(!writings.length){ list.innerHTML='<li class="empty-writing"><p>No articles yet.</p></li>'; return; }
+  if(!items.length){ list.innerHTML='<li class="no-results">No articles match your search.</li>'; return; }
+  list.innerHTML=items.map(w=>`<li class="writing-item" onclick="navigate('article/${w.slug}')"><div><p class="writing-category ${w.category}">${w.categoryLabel}</p><p class="writing-title">${w.title}</p><p class="writing-excerpt">${w.excerpt}</p></div><div class="writing-meta"><p class="writing-date">${w.date}</p></div></li>`).join('');
+}
+
+function filterWriting(c,b){
+  currentFilter=c;
+  document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  renderList(c,currentSearch);
+}
+
+function handleSearch(val){
+  currentSearch=val;
+  document.getElementById('search-clear').classList.toggle('visible',val.length>0);
+  renderList(currentFilter,val);
+}
+
+function clearSearch(){
+  document.getElementById('search-input').value='';
+  document.getElementById('search-clear').classList.remove('visible');
+  currentSearch='';
+  renderList(currentFilter,'');
+}
+
+function openArticle(slug){ navigate('article/'+slug); }
+
+function openArticleView(w){
+  document.getElementById('art-kicker').textContent=w.categoryLabel;
+  document.getElementById('art-kicker').className='article-kicker '+w.category;
+  document.getElementById('art-title').textContent=w.title;
+  document.getElementById('art-date').textContent=w.date;
+  document.getElementById('art-read').textContent=w.readTime;
+  document.getElementById('art-body').innerHTML=w.body;
+  const img=document.getElementById('art-image');
+  if(w.image){ img.src=w.image; img.style.display='block'; } else { img.style.display='none'; }
+  const related=writings.filter(x=>x.slug!==w.slug&&x.category===w.category).slice(0,2);
+  const rs=document.getElementById('related-section');
+  if(related.length){
+    document.getElementById('related-grid').innerHTML=related.map(r=>`<div class="related-card" onclick="navigate('article/${r.slug}')"><p class="related-card-cat ${r.category}">${r.categoryLabel}</p><p class="related-card-title">${r.title}</p></div>`).join('');
+    rs.style.display='block';
+  } else { rs.style.display='none'; }
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  ['nav-writing','nav-shelf','nav-about','nav-contact','mnav-writing','mnav-shelf','mnav-about','mnav-contact'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.classList.remove('active');
+  });
+  document.getElementById('article-view').classList.add('active');
+  window.scrollTo(0,0);
+  initProgressBar();
+}
+
+function shareArticle(){
+  const url=window.location.href;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(url).then(showShareToast).catch(()=>fallbackCopy(url));
+  } else { fallbackCopy(url); }
+}
+
+function fallbackCopy(url){
+  const ta=document.createElement('textarea');
+  ta.value=url; document.body.appendChild(ta); ta.select();
+  document.execCommand('copy'); document.body.removeChild(ta);
+  showShareToast();
+}
+
+function showShareToast(){
+  const t=document.getElementById('share-toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+function stars(n){ return Array.from({length:5},(_,i)=>`<span class="shelf-star ${i<n?'filled':''}">&#9733;</span>`).join(''); }
+
+function renderShelf(items,gid,type){
+  const g=document.getElementById(gid); if(!g) return;
+  if(!items.length){ g.innerHTML='<p class="shelf-empty">Nothing added yet.</p>'; return; }
+  g.innerHTML=items.map(item=>`<div class="shelf-card"><div class="shelf-card-spine ${type}"></div><p class="shelf-card-year">${item.year}</p><span class="shelf-tag">${item.tag}</span><p class="shelf-card-title">${item.title}</p><p class="shelf-card-author">${item.author}</p><div class="shelf-rating">${stars(item.stars)}</div><p class="shelf-card-note">${item.note}</p></div>`).join('');
+}
+
+function switchShelf(p,b){
+  document.querySelectorAll('.shelf-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.shelf-panel').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById('shelf-'+p).classList.add('active');
+}
+
+function initProgressBar(){
+  const bar=document.getElementById('progress-bar');
+  bar.classList.add('visible'); updateProgressBar();
+  window.addEventListener('scroll',updateProgressBar);
+}
+function updateProgressBar(){
+  const pct=document.documentElement.scrollHeight-window.innerHeight>0?(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100:0;
+  document.getElementById('progress-bar').style.width=pct+'%';
+}
+function hideProgressBar(){
+  const bar=document.getElementById('progress-bar');
+  bar.classList.remove('visible'); bar.style.width='0%';
+  window.removeEventListener('scroll',updateProgressBar);
+}
+
+function toggleMenu(){ document.getElementById('mobile-drawer').classList.toggle('open'); document.getElementById('burger-btn').classList.toggle('open'); }
+function closeMobileMenu(){ document.getElementById('mobile-drawer').classList.remove('open'); document.getElementById('burger-btn').classList.remove('open'); }
+
+// Init
+updateCounts();
+renderFeatured();
+renderList('all','');
+renderShelf(books,'books-grid','books');
+renderShelf(films,'film-grid','film');
+renderShelf(tvSeries,'tv-grid','tv');
+handleHashChange();
 </script>
 </body>
 </html>
