@@ -341,11 +341,8 @@ function openArticleView(w){
   document.getElementById('article-view').classList.add('active');
   window.scrollTo(0,0);initProgressBar();
 }
-function shareArticle(){
-  const url=window.location.origin+'/articles/'+window.currentArticleSlug+'.html';
-  if(navigator.clipboard){navigator.clipboard.writeText(url).then(showShareToast).catch(()=>fallbackCopy(url));}
-  else{fallbackCopy(url);}
-}
+function shareArticle(){const hash=window.location.hash.slice(1);const slug=hash.startsWith('article/')?hash.slice(8):(window.currentArticleSlug||'');const url='https://nazeefba.com/articles/'+slug+'.html';if(navigator.clipboard){navigator.clipboard.writeText(url).then(showShareToast).catch(()=>fallbackCopy(url));}else{fallbackCopy(url);}}
+
 function fallbackCopy(url){const ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);showShareToast();}
 function showShareToast(){const t=document.getElementById('share-toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 function stars(n){return Array.from({length:5},(_,i)=>`<span class="shelf-star ${i<n?'filled':''}">&#9733;</span>`).join('');}
