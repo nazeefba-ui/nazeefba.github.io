@@ -10,6 +10,8 @@ const { marked } = require('marked');
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const INDEX_PATH = path.join(REPO_ROOT, 'index.html');
 const ARTICLES_DIR = path.join(REPO_ROOT, 'articles');
+const SITEMAP_PATH = path.join(REPO_ROOT, 'sitemap.xml');
+const SITE_URL = 'https://nazeefba.com';
 
 const CATEGORY_LABELS = {
   academic: 'Academic',
@@ -154,22 +156,36 @@ function main() {
   const articlePath = path.join(ARTICLES_DIR, slug + '.html');
   fs.writeFileSync(articlePath, articleHtml);
 
+  fs.writeFileSync(SITEMAP_PATH, buildSitemap(newWritings));
+
   console.log((existing ? 'Updated' : 'Published') + ' article: ' + title);
   console.log('  slug:     ' + slug);
   console.log('  category: ' + CATEGORY_LABELS[category]);
   console.log('  date:     ' + date);
-  console.log('  files:    index.html, articles/' + slug + '.html');
+  console.log('  files:    index.html, articles/' + slug + '.html, sitemap.xml');
 
   if (flags['no-git']) {
     console.log('\n--no-git set: files were written but not committed. Review and commit/push yourself.');
     return;
   }
 
-  runGit(['add', 'index.html', 'articles/' + slug + '.html']);
+  runGit(['add', 'index.html', 'articles/' + slug + '.html', 'sitemap.xml']);
   const verb = existing ? 'Update' : 'Add';
   runGit(['commit', '-m', verb + ' article: ' + title]);
   runGit(['push']);
   console.log('\nPushed. GitHub Pages will redeploy automatically.');
+}
+
+function buildSitemap(writings) {
+  const today = new Date().toISOString().slice(0, 10);
+  const urls = [
+    { loc: SITE_URL + '/', priority: '1.0' },
+    ...writings.map((w) => ({ loc: SITE_URL + '/articles/' + w.slug + '.html', priority: '0.8' }))
+  ];
+  const entries = urls
+    .map((u) => '  <url>\n    <loc>' + u.loc + '</loc>\n    <lastmod>' + today + '</lastmod>\n    <priority>' + u.priority + '</priority>\n  </url>')
+    .join('\n');
+  return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + entries + '\n</urlset>\n';
 }
 
 function buildArticlePage(indexHtml, meta) {
