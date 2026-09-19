@@ -52,4 +52,4 @@ None of this settles the harder arguments about teacher quality, curriculum and 
 
 I got the emblem in the end. The car looks finished now, and the part that actually protects the engine is bolted on underneath where nobody sees it. We have built a great deal in this region that looks finished. The register is the part underneath. It is unglamorous, it photographs badly, no commissioner will ever cut a ribbon on one, and nothing else we spend money on works without it.
 
-*Muhammad Nazif Abubakar writes from Kaduna, Nigeria.*
+*Muhammad Nazif Abubakar<br>Kaduna, Nigeria*
