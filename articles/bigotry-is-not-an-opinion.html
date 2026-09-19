@@ -27,14 +27,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<script>(function(){try{var t=localStorage.getItem('tts-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='dark'?'#18181a':'#2d4a3e');}catch(e){}})();</script>
 <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--ink:#1a1a18;--ink-mid:#4a4a46;--ink-soft:#8a8a84;--ink-faint:#c8c8c0;--paper:#faf9f6;--paper-article:#f7f6f2;--accent:#2d4a3e;--accent-light:#e8f0eb;--accent-warm:#8b5e3c;--accent-film:#4a3a6e;--accent-tv:#3a5a6e;--rule:rgba(26,26,24,0.12);--serif:'Lora',Georgia,serif;--display:'Libre Baskerville',Georgia,serif;--mono:'DM Mono',monospace;--sidebar-w:260px;--content-max:680px;--topbar-h:56px}
+:root{--ink:#1a1a18;--ink-mid:#4a4a46;--ink-soft:#707069;--ink-faint:#c8c8c0;--paper:#faf9f6;--paper-article:#f7f6f2;--surface:#fff;--shadow:rgba(26,26,24,0.08);--accent:#2d4a3e;--accent-light:#e8f0eb;--accent-warm:#8b5e3c;--accent-film:#4a3a6e;--accent-tv:#3a5a6e;--cat-opinion:#5a5a7a;--cat-scicomm:#3a6a7a;--focus:var(--accent);--rule:rgba(26,26,24,0.12);--radius:2px;--ease:cubic-bezier(.4,0,.2,1);--dur-fast:150ms;--dur-base:250ms;--serif:'Lora',Georgia,serif;--display:'Libre Baskerville',Georgia,serif;--mono:'DM Mono',monospace;--sidebar-w:260px;--content-max:680px;--topbar-h:56px;color-scheme:light}
+html[data-theme="dark"]{--ink:#f0ede6;--ink-mid:#c4c0b6;--ink-soft:#a39d92;--ink-faint:#3a3733;--paper:#18181a;--paper-article:#141412;--surface:#201f1c;--shadow:rgba(0,0,0,0.4);--accent:#6b9880;--accent-light:rgba(107,152,128,.16);--accent-warm:#d1996a;--accent-film:#a08cd6;--accent-tv:#7ab3c7;--cat-opinion:#9a9ac2;--cat-scicomm:#6bb5c9;--rule:rgba(240,237,230,0.14);color-scheme:dark}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+.skip-link{position:absolute;top:-40px;left:8px;background:var(--ink);color:var(--paper);padding:10px 16px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;z-index:10000;border-radius:var(--radius);text-decoration:none;transition:top .2s}
+.skip-link:focus{top:8px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.theme-toggle{display:flex;align-items:center;gap:8px;background:none;border:1px solid var(--ink-faint);border-radius:var(--radius);color:var(--ink-soft);font-family:var(--mono);font-size:11px;font-weight:300;letter-spacing:.04em;padding:7px 10px;cursor:pointer;transition:border-color .2s,color .2s;margin-bottom:14px}
+.theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
+.theme-toggle svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
+.theme-toggle .icon-sun{display:none}
+html[data-theme="dark"] .theme-toggle .icon-sun{display:block}
+html[data-theme="dark"] .theme-toggle .icon-moon{display:none}
 html{scroll-behavior:smooth}
 body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.75;min-height:100vh}
 #progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--accent);width:0%;z-index:9999;transition:width .1s linear;opacity:0;pointer-events:none}
 #progress-bar.visible{opacity:1}
 .sidebar{width:var(--sidebar-w);min-height:100vh;position:fixed;top:0;left:0;background:var(--paper);border-right:1px solid var(--rule);display:flex;flex-direction:column;padding:52px 36px 40px;z-index:200}
-.site-name{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.01em;line-height:1.2;color:var(--ink);display:block;margin-bottom:4px;cursor:pointer}
+.site-name{font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.01em;line-height:1.2;color:var(--ink);display:block;margin-bottom:4px;cursor:pointer;text-decoration:none}
 .site-tagline{font-family:var(--mono);font-size:11px;font-weight:300;color:var(--ink-soft);letter-spacing:.04em;text-transform:uppercase;margin-bottom:48px}
 .sidebar-divider{width:32px;height:1px;background:var(--ink-faint);margin-bottom:28px}
 nav{flex:1}nav ul{list-style:none}nav ul li+li{margin-top:2px}
@@ -47,7 +61,7 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
 .ext-links a:hover{color:var(--accent)}
 .ext-links svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0}
 .topbar{display:none;position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--paper);border-bottom:1px solid var(--rule);align-items:center;justify-content:space-between;padding:0 20px;z-index:300}
-.topbar-name{font-family:var(--display);font-size:15px;font-weight:700;color:var(--ink);cursor:pointer}
+.topbar-name{font-family:var(--display);font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-decoration:none}
 .burger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:4px}
 .burger span{display:block;width:22px;height:1.5px;background:var(--ink);transition:transform .25s,opacity .25s}
 .burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
@@ -69,11 +83,11 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
 .page-intro{font-size:17px;line-height:1.8;color:var(--ink-mid);max-width:560px;margin-bottom:40px;font-style:italic}
 .search-wrap{position:relative;margin-bottom:28px}
 .search-input{width:100%;font-family:var(--mono);font-size:13px;font-weight:300;color:var(--ink);background:var(--paper);border:1px solid var(--ink-faint);border-radius:2px;padding:10px 16px 10px 40px;transition:border-color .2s;letter-spacing:.02em}
-.search-input:focus{outline:none;border-color:var(--accent)}
+.search-input:focus{border-color:var(--accent)}
 .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:14px;height:14px;stroke:var(--ink-soft);fill:none;stroke-width:1.8;pointer-events:none}
 .search-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--ink-soft);font-family:var(--mono);font-size:11px;padding:2px 6px;display:none}
 .search-clear.visible{display:block}
-.featured-card{border:1px solid var(--rule);padding:28px 32px;margin-bottom:40px;background:#fff;cursor:pointer;transition:border-color .2s,transform .15s;position:relative}
+.featured-card{display:block;border:1px solid var(--rule);padding:28px 32px;margin-bottom:40px;background:var(--surface);cursor:pointer;text-decoration:none;color:inherit;transition:border-color .2s,transform .15s;position:relative}
 .featured-card:hover{border-color:var(--ink-soft);transform:translateY(-1px)}
 .featured-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent)}
 .featured-label{font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
@@ -86,11 +100,11 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
 .filter-btn.active{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .filter-count{font-size:9.5px;opacity:.7}
 .writing-list{list-style:none}
-.writing-item{border-top:1px solid var(--rule);padding:26px 0;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start;cursor:pointer}
+.writing-item{border-top:1px solid var(--rule);padding:26px 0;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start;cursor:pointer;text-decoration:none;color:inherit}
 .writing-item:last-child{border-bottom:1px solid var(--rule)}
 .writing-item:hover .writing-title{color:var(--accent)}
 .writing-category{font-family:var(--mono);font-size:10.5px;font-weight:300;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
-.writing-category.academic{color:var(--accent)}.writing-category.opinion{color:#5a5a7a}.writing-category.scicomm{color:#3a6a7a}
+.writing-category.academic{color:var(--accent)}.writing-category.opinion{color:var(--cat-opinion)}.writing-category.scicomm{color:var(--cat-scicomm)}
 .writing-title{font-family:var(--display);font-size:20px;font-weight:400;line-height:1.3;color:var(--ink);margin-bottom:8px;letter-spacing:-.01em;transition:color .2s}
 .writing-excerpt{font-size:15px;line-height:1.7;color:var(--ink-soft);max-width:540px}
 .writing-meta{text-align:right;flex-shrink:0}
@@ -105,8 +119,8 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
 .shelf-panel{display:none}.shelf-panel.active{display:block}
 .shelf-intro{font-size:15px;line-height:1.8;color:var(--ink-soft);font-style:italic;margin-bottom:36px;max-width:520px}
 .shelf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:24px}
-.shelf-card{border:1px solid var(--rule);padding:20px 18px;background:#fff;transition:border-color .2s,transform .15s,box-shadow .15s;position:relative}
-.shelf-card:hover{border-color:var(--ink-soft);transform:translateY(-3px);box-shadow:0 8px 24px rgba(26,26,24,0.08)}
+.shelf-card{border:1px solid var(--rule);padding:20px 18px;background:var(--surface);transition:border-color .2s,transform .15s,box-shadow .15s;position:relative}
+.shelf-card:hover{border-color:var(--ink-soft);transform:translateY(-3px);box-shadow:0 8px 24px var(--shadow)}
 .shelf-card-spine{width:3px;height:100%;position:absolute;left:0;top:0;border-radius:2px 0 0 2px}
 .shelf-card-spine.books{background:var(--accent)}.shelf-card-spine.film{background:var(--accent-film)}.shelf-card-spine.tv{background:var(--accent-tv)}
 .shelf-card-year{font-family:var(--mono);font-size:10px;font-weight:300;letter-spacing:.08em;color:var(--ink-soft);margin-bottom:8px}
@@ -140,14 +154,14 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
 .back-btn::before{content:'';width:20px;height:1px;background:currentColor;transition:width .2s}
 .back-btn:hover::before{width:12px}
 .article-kicker{font-family:var(--mono);font-size:11px;font-weight:300;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
-.article-kicker.academic{color:var(--accent)}.article-kicker.opinion{color:#5a5a7a}.article-kicker.scicomm{color:#3a6a7a}
+.article-kicker.academic{color:var(--accent)}.article-kicker.opinion{color:var(--cat-opinion)}.article-kicker.scicomm{color:var(--cat-scicomm)}
 .article-title{font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:-.025em;line-height:1.18;color:var(--ink);margin-bottom:20px}
 .article-byline{font-family:var(--mono);font-size:12px;font-weight:300;letter-spacing:.04em;color:var(--ink-soft);margin-bottom:36px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .article-byline span+span::before{content:'·';margin-right:16px}
 .share-btn{font-family:var(--mono);font-size:11px;font-weight:300;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);background:none;border:1px solid var(--ink-faint);border-radius:2px;padding:5px 12px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
 .share-btn:hover{border-color:var(--accent);color:var(--accent)}
 .share-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
-.share-toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-family:var(--mono);font-size:12px;padding:10px 20px;border-radius:2px;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:9999;white-space:nowrap}
+.share-toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;padding:10px 20px;border-radius:2px;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:9999;white-space:nowrap}
 .share-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .article-rule{width:48px;height:2px;background:var(--accent);margin-bottom:40px}
 .article-image{width:100%;max-height:480px;object-fit:cover;object-position:top;border-radius:2px;margin-bottom:36px}
@@ -163,65 +177,79 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
 .related-section{margin-top:72px;padding-top:40px;border-top:1px solid var(--rule)}
 .related-label{font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:24px}
 .related-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.related-card{border:1px solid var(--rule);padding:20px;cursor:pointer;transition:border-color .2s;background:#fff}
+.related-card{display:block;border:1px solid var(--rule);padding:20px;cursor:pointer;text-decoration:none;color:inherit;transition:border-color .2s;background:var(--surface)}
 .related-card:hover{border-color:var(--ink-soft)}
 .related-card:hover .related-card-title{color:var(--accent)}
 .related-card-cat{font-family:var(--mono);font-size:10px;font-weight:300;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
-.related-card-cat.academic{color:var(--accent)}.related-card-cat.opinion{color:#5a5a7a}.related-card-cat.scicomm{color:#3a6a7a}
+.related-card-cat.academic{color:var(--accent)}.related-card-cat.opinion{color:var(--cat-opinion)}.related-card-cat.scicomm{color:var(--cat-scicomm)}
 .related-card-title{font-family:var(--display);font-size:15px;font-weight:400;line-height:1.3;color:var(--ink);transition:color .2s}
 @media(max-width:768px){.sidebar{display:none}.topbar{display:flex}.drawer{display:flex}.main{margin-left:0;padding-top:var(--topbar-h)}.section,#article-view{padding:36px 20px 64px}.page-title{font-size:26px}.article-title{font-size:24px}.writing-item{grid-template-columns:1fr;gap:4px}.writing-meta{text-align:left}.writing-title{font-size:18px}.contact-grid{grid-template-columns:1fr}.about-header{flex-direction:column;gap:20px}.shelf-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px}.related-grid{grid-template-columns:1fr}.featured-card{padding:20px}.featured-title{font-size:18px}}
 @media(min-width:769px) and (max-width:1024px){:root{--sidebar-w:220px}.section,#article-view{padding:52px 40px 72px}.page-title{font-size:32px}}</style>
 <div id="progress-bar"></div>
 <div class="share-toast" id="share-toast">Link copied to clipboard</div>
 <aside class="sidebar">
-  <span class="site-name" onclick="navigate('writing')">The Thinking Specimen</span>
+  <a class="site-name" href="#writing">The Thinking Specimen</a>
   <p class="site-tagline">Science, Ideas, and Everything Between</p>
   <div class="sidebar-divider"></div>
-  <nav><ul>
-    <li><a class="active" id="nav-writing" onclick="navigate('writing')">Writing</a></li>
-    <li><a id="nav-shelf" onclick="navigate('shelf')">Books &amp; Screen</a></li>
-    <li><a id="nav-about" onclick="navigate('about')">About</a></li>
-    <li><a id="nav-contact" onclick="navigate('contact')">Contact</a></li>
+  <nav aria-label="Primary"><ul>
+    <li><a class="active" id="nav-writing" href="#writing" aria-current="page">Writing</a></li>
+    <li><a id="nav-shelf" href="#shelf">Books &amp; Screen</a></li>
+    <li><a id="nav-about" href="#about">About</a></li>
+    <li><a id="nav-contact" href="#contact">Contact</a></li>
   </ul></nav>
-  <div class="sidebar-footer"><div class="ext-links">
-    <a href="mailto:contact@nazeefba.com"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>Email</a>
-    <a href="" target="_blank"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>ORCID</a>
-    <a href="" target="_blank"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M9 9h3a3 3 0 0 1 0 6H9V9zm3 3h3"/></svg>ResearchGate</a>
+  <div class="sidebar-footer">
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Switch to dark theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      <span class="theme-toggle-label">Dark mode</span>
+    </button>
+    <div class="ext-links">
+    <a href="mailto:contact@nazeefba.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>Email</a>
+    <a href="" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>ORCID</a>
+    <a href="" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M9 9h3a3 3 0 0 1 0 6H9V9zm3 3h3"/></svg>ResearchGate</a>
   </div></div>
 </aside>
 <header class="topbar">
-  <span class="topbar-name" onclick="navigate('writing');closeMobileMenu()">The Thinking Specimen</span>
-  <button class="burger" id="burger-btn" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+  <a class="topbar-name" href="#writing" onclick="closeMobileMenu()">The Thinking Specimen</a>
+  <button class="burger" id="burger-btn" onclick="toggleMenu()" aria-label="Menu" aria-expanded="false" aria-controls="mobile-drawer"><span></span><span></span><span></span></button>
 </header>
 <div class="drawer" id="mobile-drawer">
-  <nav><ul>
-    <li><a class="active" id="mnav-writing" onclick="navigate('writing');closeMobileMenu()">Writing</a></li>
-    <li><a id="mnav-shelf" onclick="navigate('shelf');closeMobileMenu()">Books &amp; Screen</a></li>
-    <li><a id="mnav-about" onclick="navigate('about');closeMobileMenu()">About</a></li>
-    <li><a id="mnav-contact" onclick="navigate('contact');closeMobileMenu()">Contact</a></li>
+  <nav aria-label="Primary"><ul>
+    <li><a class="active" id="mnav-writing" href="#writing" aria-current="page" onclick="closeMobileMenu()">Writing</a></li>
+    <li><a id="mnav-shelf" href="#shelf" onclick="closeMobileMenu()">Books &amp; Screen</a></li>
+    <li><a id="mnav-about" href="#about" onclick="closeMobileMenu()">About</a></li>
+    <li><a id="mnav-contact" href="#contact" onclick="closeMobileMenu()">Contact</a></li>
   </ul></nav>
-  <div class="drawer-footer"><div class="ext-links">
-    <a href="mailto:contact@nazeefba.com"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>Email</a>
-    <a href="" target="_blank"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>ORCID</a>
-    <a href="" target="_blank"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M9 9h3a3 3 0 0 1 0 6H9V9zm3 3h3"/></svg>ResearchGate</a>
+  <div class="drawer-footer">
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Switch to dark theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      <span class="theme-toggle-label">Dark mode</span>
+    </button>
+    <div class="ext-links">
+    <a href="mailto:contact@nazeefba.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>Email</a>
+    <a href="" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>ORCID</a>
+    <a href="" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M9 9h3a3 3 0 0 1 0 6H9V9zm3 3h3"/></svg>ResearchGate</a>
   </div></div>
 </div>
-<main class="main">
+<main class="main" id="main-content" tabindex="-1">
   <section class="section active" id="section-writing">
     <p class="page-label">All writing</p>
     <h1 class="page-title">Words on science,<br>ideas, and the world.</h1>
     <p class="page-intro">A personal record of thinking across science, contemporary issues, and everything between.</p>
     <div class="search-wrap">
-      <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <label class="sr-only" for="search-input">Search articles</label>
       <input class="search-input" id="search-input" type="text" placeholder="Search articles..." oninput="handleSearch(this.value)">
       <button class="search-clear" id="search-clear" onclick="clearSearch()">Clear</button>
     </div>
+    <p class="sr-only" id="search-status" role="status" aria-live="polite"></p>
     <div id="featured-container"></div>
     <div class="filters-row">
-      <button class="filter-btn active" onclick="filterWriting('all',this)">All <span class="filter-count" id="count-all"></span></button>
-      <button class="filter-btn" onclick="filterWriting('academic',this)">Academic <span class="filter-count" id="count-academic"></span></button>
-      <button class="filter-btn" onclick="filterWriting('opinion',this)">Opinion <span class="filter-count" id="count-opinion"></span></button>
-      <button class="filter-btn" onclick="filterWriting('scicomm',this)">Science comm. <span class="filter-count" id="count-scicomm"></span></button>
+      <button class="filter-btn active" aria-pressed="true" onclick="filterWriting('all',this)">All <span class="filter-count" id="count-all"></span></button>
+      <button class="filter-btn" aria-pressed="false" onclick="filterWriting('academic',this)">Academic <span class="filter-count" id="count-academic"></span></button>
+      <button class="filter-btn" aria-pressed="false" onclick="filterWriting('opinion',this)">Opinion <span class="filter-count" id="count-opinion"></span></button>
+      <button class="filter-btn" aria-pressed="false" onclick="filterWriting('scicomm',this)">Science comm. <span class="filter-count" id="count-scicomm"></span></button>
     </div>
     <ul class="writing-list" id="writing-list"></ul>
   </section>
@@ -229,14 +257,14 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
     <p class="page-label">A personal shelf</p>
     <h1 class="page-title">Books &amp; Screen</h1>
     <p class="page-intro">Things I have read and watched, with brief notes on what stayed with me.</p>
-    <div class="shelf-tabs">
-      <button class="shelf-tab active" onclick="switchShelf('books',this)">Books</button>
-      <button class="shelf-tab" onclick="switchShelf('film',this)">Film</button>
-      <button class="shelf-tab" onclick="switchShelf('tv',this)">TV Series</button>
+    <div class="shelf-tabs" role="tablist" aria-label="Shelf categories">
+      <button class="shelf-tab active" id="shelf-tab-books" role="tab" aria-selected="true" aria-controls="shelf-books" onclick="switchShelf('books',this)">Books</button>
+      <button class="shelf-tab" id="shelf-tab-film" role="tab" aria-selected="false" aria-controls="shelf-film" tabindex="-1" onclick="switchShelf('film',this)">Film</button>
+      <button class="shelf-tab" id="shelf-tab-tv" role="tab" aria-selected="false" aria-controls="shelf-tv" tabindex="-1" onclick="switchShelf('tv',this)">TV Series</button>
     </div>
-    <div class="shelf-panel active" id="shelf-books"><p class="shelf-intro">A selection of books that have shaped how I think about science, ideas, and the world.</p><div class="shelf-grid" id="books-grid"></div></div>
-    <div class="shelf-panel" id="shelf-film"><p class="shelf-intro">Films I return to, or that left a mark worth noting.</p><div class="shelf-grid" id="film-grid"></div></div>
-    <div class="shelf-panel" id="shelf-tv"><p class="shelf-intro">TV series that held my attention, provoked thought, or simply refused to let go.</p><div class="shelf-grid" id="tv-grid"></div></div>
+    <div class="shelf-panel active" id="shelf-books" role="tabpanel" aria-labelledby="shelf-tab-books"><p class="shelf-intro">A selection of books that have shaped how I think about science, ideas, and the world.</p><div class="shelf-grid" id="books-grid"></div></div>
+    <div class="shelf-panel" id="shelf-film" role="tabpanel" aria-labelledby="shelf-tab-film"><p class="shelf-intro">Films I return to, or that left a mark worth noting.</p><div class="shelf-grid" id="film-grid"></div></div>
+    <div class="shelf-panel" id="shelf-tv" role="tabpanel" aria-labelledby="shelf-tab-tv"><p class="shelf-intro">TV series that held my attention, provoked thought, or simply refused to let go.</p><div class="shelf-grid" id="tv-grid"></div></div>
   </section>
   <section class="section" id="section-about">
     <div class="about-header"><div class="about-monogram">N</div><div><p class="about-name">Nazeef</p><p class="about-roles">PhD Candidate (September 2026 start)</p></div></div>
@@ -265,7 +293,7 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
     <div class="article-byline">
       <span id="art-date"></span><span id="art-read"></span>
       <button class="share-btn" onclick="shareArticle()">
-        <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
         Share
       </button>
     </div>
@@ -298,9 +326,10 @@ function showSection(name){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById('article-view').classList.remove('active');
   const s=document.getElementById('section-'+name);if(s)s.classList.add('active');
-  ['nav-writing','nav-shelf','nav-about','nav-contact','mnav-writing','mnav-shelf','mnav-about','mnav-contact'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active')});
+  ['nav-writing','nav-shelf','nav-about','nav-contact','mnav-writing','mnav-shelf','mnav-about','mnav-contact'].forEach(id=>{const el=document.getElementById(id);if(el){el.classList.remove('active');el.removeAttribute('aria-current');}});
   const nd=document.getElementById('nav-'+name),mn=document.getElementById('mnav-'+name);
-  if(nd)nd.classList.add('active');if(mn)mn.classList.add('active');
+  if(nd){nd.classList.add('active');nd.setAttribute('aria-current','page');}
+  if(mn){mn.classList.add('active');mn.setAttribute('aria-current','page');}
   hideProgressBar();
   if(name==='writing'){updateCounts();renderFeatured();renderList(currentFilter,currentSearch);}
 }
@@ -315,18 +344,20 @@ function renderFeatured(){
   if(!writings.length){container.innerHTML='';return;}
   const featured=featuredId?writings.find(w=>w.id===featuredId):getSortedWritings()[0];
   if(!featured){container.innerHTML='';return;}
-  container.innerHTML=`<div class="featured-card" onclick="navigate('article/${featured.slug}')"><p class="featured-label">Featured</p><p class="featured-title">${featured.title}</p><p class="featured-excerpt">${featured.excerpt}</p><div class="featured-meta"><span>${featured.categoryLabel}</span><span>${featured.date}</span><span>${featured.readTime}</span></div></div>`;
+  container.innerHTML=`<a class="featured-card" href="#article/${featured.slug}"><p class="featured-label">Featured</p><p class="featured-title">${featured.title}</p><p class="featured-excerpt">${featured.excerpt}</p><div class="featured-meta"><span>${featured.categoryLabel}</span><span>${featured.date}</span><span>${featured.readTime}</span></div></a>`;
 }
 function renderList(filter,search){
   const list=document.getElementById('writing-list');
+  const status=document.getElementById('search-status');
   let items=getSortedWritings();
   if(filter&&filter!=='all')items=items.filter(w=>w.category===filter);
   if(search){const q=search.toLowerCase();items=items.filter(w=>w.title.toLowerCase().includes(q)||w.excerpt.toLowerCase().includes(q));}
-  if(!writings.length){list.innerHTML='<li class="empty-writing"><p>No articles yet.</p></li>';return;}
-  if(!items.length){list.innerHTML='<li class="no-results">No articles match your search.</li>';return;}
-  list.innerHTML=items.map(w=>`<li class="writing-item" onclick="navigate('article/${w.slug}')"><div><p class="writing-category ${w.category}">${w.categoryLabel}</p><p class="writing-title">${w.title}</p><p class="writing-excerpt">${w.excerpt}</p></div><div class="writing-meta"><p class="writing-date">${w.date}</p></div></li>`).join('');
+  if(!writings.length){list.innerHTML='<li class="empty-writing"><p>No articles yet.</p></li>';if(status)status.textContent='';return;}
+  if(!items.length){list.innerHTML='<li class="no-results">No articles match your search.</li>';if(status)status.textContent='No articles match your search.';return;}
+  list.innerHTML=items.map(w=>`<li><a class="writing-item" href="#article/${w.slug}"><div><p class="writing-category ${w.category}">${w.categoryLabel}</p><p class="writing-title">${w.title}</p><p class="writing-excerpt">${w.excerpt}</p></div><div class="writing-meta"><p class="writing-date">${w.date}</p></div></a></li>`).join('');
+  if(status)status.textContent=items.length+(items.length===1?' article found':' articles found');
 }
-function filterWriting(c,b){currentFilter=c;document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderList(c,currentSearch);}
+function filterWriting(c,b){currentFilter=c;document.querySelectorAll('.filter-btn').forEach(x=>{x.classList.remove('active');x.setAttribute('aria-pressed','false');});b.classList.add('active');b.setAttribute('aria-pressed','true');renderList(c,currentSearch);}
 function handleSearch(val){currentSearch=val;document.getElementById('search-clear').classList.toggle('visible',val.length>0);renderList(currentFilter,val);}
 function clearSearch(){document.getElementById('search-input').value='';document.getElementById('search-clear').classList.remove('visible');currentSearch='';renderList(currentFilter,'');}
 function openArticle(slug){navigate('article/'+slug);}
@@ -341,10 +372,10 @@ function openArticleView(w){
   if(w.image){img.src=(w.image.startsWith("http")||w.image.startsWith("/"))?w.image:'/'+w.image;img.style.display='block';}else{img.style.display='none';}
   const related=writings.filter(x=>x.slug!==w.slug&&x.category===w.category).slice(0,2);
   const rs=document.getElementById('related-section');
-  if(related.length){document.getElementById('related-grid').innerHTML=related.map(r=>`<div class="related-card" onclick="navigate('article/${r.slug}')"><p class="related-card-cat ${r.category}">${r.categoryLabel}</p><p class="related-card-title">${r.title}</p></div>`).join('');rs.style.display='block';}
+  if(related.length){document.getElementById('related-grid').innerHTML=related.map(r=>`<a class="related-card" href="#article/${r.slug}"><p class="related-card-cat ${r.category}">${r.categoryLabel}</p><p class="related-card-title">${r.title}</p></a>`).join('');rs.style.display='block';}
   else{rs.style.display='none';}
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  ['nav-writing','nav-shelf','nav-about','nav-contact','mnav-writing','mnav-shelf','mnav-about','mnav-contact'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active')});
+  ['nav-writing','nav-shelf','nav-about','nav-contact','mnav-writing','mnav-shelf','mnav-about','mnav-contact'].forEach(id=>{const el=document.getElementById(id);if(el){el.classList.remove('active');el.removeAttribute('aria-current');}});
   document.getElementById('article-view').classList.add('active');
   window.scrollTo(0,0);initProgressBar();
 }
@@ -354,13 +385,26 @@ function fallbackCopy(url){const ta=document.createElement('textarea');ta.value=
 function showShareToast(){const t=document.getElementById('share-toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 function stars(n){return Array.from({length:5},(_,i)=>`<span class="shelf-star ${i<n?'filled':''}">&#9733;</span>`).join('');}
 function renderShelf(items,gid,type){const g=document.getElementById(gid);if(!g)return;if(!items.length){g.innerHTML='<p class="shelf-empty">Nothing added yet.</p>';return;}g.innerHTML=items.map(item=>`<div class="shelf-card"><div class="shelf-card-spine ${type}"></div><p class="shelf-card-year">${item.year}</p><span class="shelf-tag">${item.tag}</span><p class="shelf-card-title">${item.title}</p><p class="shelf-card-author">${item.author}</p><div class="shelf-rating">${stars(item.stars)}</div><p class="shelf-card-note">${item.note}</p></div>`).join('');}
-function switchShelf(p,b){document.querySelectorAll('.shelf-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.shelf-panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('shelf-'+p).classList.add('active');}
+function switchShelf(p,b){document.querySelectorAll('.shelf-tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false');t.tabIndex=-1;});document.querySelectorAll('.shelf-panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');b.setAttribute('aria-selected','true');b.tabIndex=0;document.getElementById('shelf-'+p).classList.add('active');}
 function initProgressBar(){const bar=document.getElementById('progress-bar');bar.classList.add('visible');updateProgressBar();window.addEventListener('scroll',updateProgressBar);}
 function updateProgressBar(){const pct=document.documentElement.scrollHeight-window.innerHeight>0?(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100:0;document.getElementById('progress-bar').style.width=pct+'%';}
 function hideProgressBar(){const bar=document.getElementById('progress-bar');bar.classList.remove('visible');bar.style.width='0%';window.removeEventListener('scroll',updateProgressBar);}
-function toggleMenu(){document.getElementById('mobile-drawer').classList.toggle('open');document.getElementById('burger-btn').classList.toggle('open');}
-function closeMobileMenu(){document.getElementById('mobile-drawer').classList.remove('open');document.getElementById('burger-btn').classList.remove('open');}
-updateCounts();renderFeatured();renderList('all','');renderShelf(books,'books-grid','books');renderShelf(films,'film-grid','film');renderShelf(tvSeries,'tv-grid','tv');handleHashChange();
+function toggleMenu(){const d=document.getElementById('mobile-drawer');const b=document.getElementById('burger-btn');const open=d.classList.toggle('open');b.classList.toggle('open');b.setAttribute('aria-expanded',open?'true':'false');}
+function closeMobileMenu(){document.getElementById('mobile-drawer').classList.remove('open');const b=document.getElementById('burger-btn');b.classList.remove('open');b.setAttribute('aria-expanded','false');}
+function getTheme(){return document.documentElement.getAttribute('data-theme')||'light';}
+function applyThemeMeta(theme){
+  const meta=document.querySelector('meta[name="theme-color"]');
+  if(meta)meta.setAttribute('content',theme==='dark'?'#18181a':'#2d4a3e');
+  document.querySelectorAll('.theme-toggle').forEach(btn=>{btn.setAttribute('aria-label',theme==='dark'?'Switch to light theme':'Switch to dark theme');const l=btn.querySelector('.theme-toggle-label');if(l)l.textContent=theme==='dark'?'Light mode':'Dark mode';});
+}
+function toggleTheme(){
+  const next=getTheme()==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',next);
+  try{localStorage.setItem('tts-theme',next);}catch(e){}
+  applyThemeMeta(next);
+}
+updateCounts();renderFeatured();renderList('all','');renderShelf(books,'books-grid','books');renderShelf(films,'film-grid','film');renderShelf(tvSeries,'tv-grid','tv');handleHashChange();applyThemeMeta(getTheme());
+document.querySelectorAll('.shelf-tab').forEach((tab,i,tabs)=>{tab.addEventListener('keydown',function(e){if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;e.preventDefault();const dir=e.key==='ArrowRight'?1:-1;const next=tabs[(i+dir+tabs.length)%tabs.length];const panelId=next.getAttribute('aria-controls').replace('shelf-','');switchShelf(panelId,next);next.focus();});});
 </script>
 <script>
 // Auto-open this article on page load
