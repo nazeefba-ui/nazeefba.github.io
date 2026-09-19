@@ -193,7 +193,7 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
   <div class="sidebar-divider"></div>
   <nav aria-label="Primary"><ul>
     <li><a class="active" id="nav-writing" href="#writing" aria-current="page">Writing</a></li>
-    <li><a id="nav-shelf" href="#shelf">Books &amp; Screen</a></li>
+    <li id="nav-item-shelf"><a id="nav-shelf" href="#shelf">Books &amp; Screen</a></li>
     <li><a id="nav-about" href="#about">About</a></li>
     <li><a id="nav-contact" href="#contact">Contact</a></li>
   </ul></nav>
@@ -203,11 +203,8 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
       <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
       <span class="theme-toggle-label">Dark mode</span>
     </button>
-    <div class="ext-links">
-    <a href="mailto:contact@nazeefba.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>Email</a>
-    <a href="" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>ORCID</a>
-    <a href="" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M9 9h3a3 3 0 0 1 0 6H9V9zm3 3h3"/></svg>ResearchGate</a>
-  </div></div>
+    <div class="ext-links" id="ext-links-sidebar"></div>
+  </div>
 </aside>
 <header class="topbar">
   <a class="topbar-name" href="#writing" onclick="closeMobileMenu()">The Thinking Specimen</a>
@@ -216,7 +213,7 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
 <div class="drawer" id="mobile-drawer">
   <nav aria-label="Primary"><ul>
     <li><a class="active" id="mnav-writing" href="#writing" aria-current="page" onclick="closeMobileMenu()">Writing</a></li>
-    <li><a id="mnav-shelf" href="#shelf" onclick="closeMobileMenu()">Books &amp; Screen</a></li>
+    <li id="mnav-item-shelf"><a id="mnav-shelf" href="#shelf" onclick="closeMobileMenu()">Books &amp; Screen</a></li>
     <li><a id="mnav-about" href="#about" onclick="closeMobileMenu()">About</a></li>
     <li><a id="mnav-contact" href="#contact" onclick="closeMobileMenu()">Contact</a></li>
   </ul></nav>
@@ -226,11 +223,8 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
       <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
       <span class="theme-toggle-label">Dark mode</span>
     </button>
-    <div class="ext-links">
-    <a href="mailto:contact@nazeefba.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>Email</a>
-    <a href="" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>ORCID</a>
-    <a href="" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M9 9h3a3 3 0 0 1 0 6H9V9zm3 3h3"/></svg>ResearchGate</a>
-  </div></div>
+    <div class="ext-links" id="ext-links-drawer"></div>
+  </div>
 </div>
 <main class="main" id="main-content" tabindex="-1">
   <section class="section active" id="section-writing">
@@ -281,8 +275,8 @@ nav a:hover,nav a.active{color:var(--ink)}nav a:hover::before,nav a.active::befo
     <div class="contact-grid">
       <div class="contact-cell"><p class="contact-cell-label">Email</p><p class="contact-cell-value"><a href="mailto:contact@nazeefba.com">contact@nazeefba.com</a></p></div>
       <div class="contact-cell"><p class="contact-cell-label">Institution</p><p class="contact-cell-value">The Thinking Specimen</p></div>
-      <div class="contact-cell"><p class="contact-cell-label">Research profile</p><p class="contact-cell-value"><a href="" target="_blank">ORCID</a></p></div>
-      <div class="contact-cell"><p class="contact-cell-label">Based in</p><p class="contact-cell-value">United Kingdom</p></div>
+      <div class="contact-cell" id="contact-orcid-cell" style="display:none"><p class="contact-cell-label">Research profile</p><p class="contact-cell-value"><a id="contact-orcid-link" href="" target="_blank">ORCID</a></p></div>
+      <div class="contact-cell" id="contact-basedin-cell"><p class="contact-cell-label">Based in</p><p class="contact-cell-value">United Kingdom</p></div>
     </div>
     <p class="contact-note">For academic collaboration or media enquiries relating to published work, please include a brief description of your purpose in the subject line.</p>
   </section>
@@ -311,7 +305,27 @@ const writings=[{"id": 2, "slug": "daga-ahmadu-sai-ahmadu-the-case-for-ahmed-gal
 const books=[];
 const films=[];
 const tvSeries=[];
+const ORCID_URL="";
+const RESEARCHGATE_URL="";
 let currentFilter='all',currentSearch='',featuredId=null;
+function renderExtLinks(){
+  const email='<a href="mailto:contact@nazeefba.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>Email</a>';
+  const orcid=ORCID_URL?'<a href="'+ORCID_URL+'" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>ORCID</a>':'';
+  const rg=RESEARCHGATE_URL?'<a href="'+RESEARCHGATE_URL+'" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M9 9h3a3 3 0 0 1 0 6H9V9zm3 3h3"/></svg>ResearchGate</a>':'';
+  const html=email+orcid+rg;
+  const sidebar=document.getElementById('ext-links-sidebar');if(sidebar)sidebar.innerHTML=html;
+  const drawer=document.getElementById('ext-links-drawer');if(drawer)drawer.innerHTML=html;
+  const orcidCell=document.getElementById('contact-orcid-cell');
+  const basedInCell=document.getElementById('contact-basedin-cell');
+  if(orcidCell){
+    if(ORCID_URL){document.getElementById('contact-orcid-link').href=ORCID_URL;orcidCell.style.display='';if(basedInCell)basedInCell.style.gridColumn='';}
+    else{orcidCell.style.display='none';if(basedInCell)basedInCell.style.gridColumn='1 / -1';}
+  }
+}
+function updateShelfNavVisibility(){
+  const hasShelfContent=books.length+films.length+tvSeries.length>0;
+  ['nav-item-shelf','mnav-item-shelf'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=hasShelfContent?'':'none';});
+}
 function slugify(t){return t.toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,60);}
 function getHash(){return window.location.hash.slice(1);}
 function navigate(target){window.location.hash=target;}
@@ -403,7 +417,7 @@ function toggleTheme(){
   try{localStorage.setItem('tts-theme',next);}catch(e){}
   applyThemeMeta(next);
 }
-updateCounts();renderFeatured();renderList('all','');renderShelf(books,'books-grid','books');renderShelf(films,'film-grid','film');renderShelf(tvSeries,'tv-grid','tv');handleHashChange();applyThemeMeta(getTheme());
+updateCounts();renderFeatured();renderList('all','');renderShelf(books,'books-grid','books');renderShelf(films,'film-grid','film');renderShelf(tvSeries,'tv-grid','tv');handleHashChange();applyThemeMeta(getTheme());renderExtLinks();updateShelfNavVisibility();
 document.querySelectorAll('.shelf-tab').forEach((tab,i,tabs)=>{tab.addEventListener('keydown',function(e){if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;e.preventDefault();const dir=e.key==='ArrowRight'?1:-1;const next=tabs[(i+dir+tabs.length)%tabs.length];const panelId=next.getAttribute('aria-controls').replace('shelf-','');switchShelf(panelId,next);next.focus();});});
 </script>
 <script>

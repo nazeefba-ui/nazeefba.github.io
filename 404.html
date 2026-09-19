@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Specimen Not Found — The Thinking Specimen</title>
+<meta name="description" content="This page could not be found.">
+<link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/images/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<meta name="theme-color" content="#2d4a3e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<script>(function(){try{var t=localStorage.getItem('tts-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',t==='dark'?'#18181a':'#2d4a3e');}catch(e){}})();</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#1a1a18;--ink-soft:#707069;--paper:#faf9f6;--accent:#2d4a3e;--rule:rgba(26,26,24,0.12);--display:'Libre Baskerville',Georgia,serif;--mono:'DM Mono',monospace}
+html[data-theme="dark"]{--ink:#f0ede6;--ink-soft:#a39d92;--paper:#18181a;--accent:#6b9880;--rule:rgba(240,237,230,0.14)}
+body{background:var(--paper);color:var(--ink);font-family:var(--mono);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.kicker{font-family:var(--mono);font-size:11px;font-weight:300;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:16px}
+.kicker::before{content:'[ '}.kicker::after{content:' ]'}
+h1{font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:-.02em;margin-bottom:16px}
+p{font-size:13px;color:var(--ink-soft);letter-spacing:.02em;line-height:1.7;max-width:420px;margin-bottom:32px}
+.rule{width:48px;height:2px;background:var(--accent);margin-bottom:32px}
+.home-link{font-family:var(--mono);font-size:11px;font-weight:300;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:color .2s}
+.home-link:hover{color:var(--ink)}
+.home-link::before{content:'';width:20px;height:1px;background:currentColor;transition:width .2s}
+.home-link:hover::before{width:12px}
+</style>
+</head>
+<body>
+<p class="kicker">Specimen Not Found</p>
+<div class="rule"></div>
+<h1>No. 404</h1>
+<p>This page has no entry in the catalog. It may have been moved, renamed, or never existed.</p>
+<a class="home-link" href="/">Back to The Thinking Specimen</a>
+</body>
+</html>
