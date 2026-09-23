@@ -418,7 +418,7 @@ function openArticleView(w){
   document.getElementById('art-read').textContent=w.readTime;
   document.getElementById('art-body').innerHTML=w.body;
   const img=document.getElementById('art-image');
-  if(w.image){img.src=(w.image.startsWith('http')||w.image.startsWith('/'))?w.image:'/'+w.image;img.style.display='block';}else{img.style.display='none';}
+  if(w.image){img.src=(w.image.startsWith('http')||w.image.startsWith('/'))?w.image:'/'+w.image;img.alt=w.title;img.style.display='block';}else{img.style.display='none';img.alt='';}
   window.currentArticleSlug=w.slug;
   const related=writings.filter(x=>x.slug!==w.slug&&x.category===w.category).slice(0,2);
   const rs=document.getElementById('related-section');
