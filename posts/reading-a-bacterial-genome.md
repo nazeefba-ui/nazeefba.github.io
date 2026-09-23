@@ -6,7 +6,7 @@ excerpt: "A routine PCR verification table in a microbiology paper hides arithme
 
 I spent a day this week doing something that, written down, takes one sentence: find four genes in a bacterial genome and establish exactly where they sit. There was a stretch at the start lost to installing software and working out which version of Java I needed, which I will not dwell on. What stayed with me was something else entirely, and it had to do with arithmetic.
 
-The context is a paper by Shaw, Hogsett and Lynd (2010) in Applied and Environmental Microbiology, on natural genetic competence in Thermoanaerobacter and Thermoanaerobacterium species.
+The context is a paper by Shaw, Hogsett and Lynd (2010) in Applied and Environmental Microbiology, on natural genetic competence in *Thermoanaerobacter* and *Thermoanaerobacterium* species.
 
 Natural competence means a bacterium takes up DNA from its surroundings without any help at all. No electrical pulse, no chemical treatment of the cell wall. You add DNA to a growing culture and the cells do the rest. Having found this, the authors then wanted to know which genes were responsible, so they deleted four candidate loci one at a time and asked whether the cells could still take DNA up. Three of the deletions abolished uptake entirely. That is the experiment I set out to understand.
 
