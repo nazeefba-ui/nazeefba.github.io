@@ -1,6 +1,7 @@
 ---
 title: "Reading a Bacterial Genome"
 category: scicomm
+image: "images/bacterial-genome-annotation.jpg"
 excerpt: "A routine PCR verification table in a microbiology paper hides arithmetic its authors never spelled out, revealing why deleting one gene and deleting thirteen require exactly the same homology arms."
 ---
 
