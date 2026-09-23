@@ -3,18 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Thinking Specimen</title>
-<meta name="description" content="Science, Ideas, and Everything Between">
-<meta property="og:type" content="website">
+<title>Reading a Bacterial Genome — The Thinking Specimen</title>
+<meta name="description" content="A routine PCR verification table in a microbiology paper hides arithmetic its authors never spelled out, revealing why deleting one gene and deleting thirteen require exactly the same homology arms.">
+<meta property="og:type" content="article">
 <meta property="og:site_name" content="The Thinking Specimen">
-<meta property="og:title" content="The Thinking Specimen">
-<meta property="og:description" content="Science, Ideas, and Everything Between — a personal record of thinking across science, contemporary issues, and the world.">
-<meta property="og:url" content="https://nazeefba.com">
+<meta property="og:title" content="Reading a Bacterial Genome">
+<meta property="og:description" content="A routine PCR verification table in a microbiology paper hides arithmetic its authors never spelled out, revealing why deleting one gene and deleting thirteen require exactly the same homology arms.">
+<meta property="og:url" content="https://nazeefba.com/articles/reading-a-bacterial-genome.html">
 <meta property="og:image" content="https://nazeefba.com/images/og-default.jpg">
+<meta property="article:author" content="Nazeef">
+<meta property="article:published_time" content="23 September 2026">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Thinking Specimen">
-<meta name="twitter:description" content="Science, Ideas, and Everything Between">
+<meta name="twitter:title" content="Reading a Bacterial Genome">
+<meta name="twitter:description" content="A routine PCR verification table in a microbiology paper hides arithmetic its authors never spelled out, revealing why deleting one gene and deleting thirteen require exactly the same homology arms.">
 <meta name="twitter:image" content="https://nazeefba.com/images/og-default.jpg">
+<link rel="canonical" href="https://nazeefba.com/articles/reading-a-bacterial-genome.html">
 <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/images/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
@@ -456,5 +459,12 @@ function toggleTheme(){
 }
 updateCounts();renderFeatured();renderList('all','');renderShelf(books,'books-grid','books');renderShelf(films,'film-grid','film');renderShelf(tvSeries,'tv-grid','tv');handleHashChange();applyThemeMeta(getTheme());renderExtLinks();updateShelfNavVisibility();renderEntriesLogged();
 document.querySelectorAll('.shelf-tab').forEach((tab,i,tabs)=>{tab.addEventListener('keydown',function(e){if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;e.preventDefault();const dir=e.key==='ArrowRight'?1:-1;const next=tabs[(i+dir+tabs.length)%tabs.length];const panelId=next.getAttribute('aria-controls').replace('shelf-','');switchShelf(panelId,next);next.focus();});});</script>
+<script>
+window.currentArticleSlug = 'reading-a-bacterial-genome';
+document.addEventListener('DOMContentLoaded', function () {
+  var w = writings.find(function (x) { return x.slug === 'reading-a-bacterial-genome'; });
+  if (w) openArticleView(w);
+});
+</script>
 </body>
 </html>
